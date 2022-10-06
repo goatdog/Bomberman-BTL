@@ -6,18 +6,16 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
+import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class BombermanGame extends Application {
     
@@ -96,36 +94,36 @@ public class BombermanGame extends Application {
                 for (int i = 0; i < WIDTH; i++) {
                     switch(map.get(j + 1).charAt(i)) {
                         case '#':
-                            stillObjects.add(new Wall(i, j, Sprite.wall.getFxImage()));
+                            stillObjects.add(new Wall(i, j, Sprite.wall));
                             break;
                         case '*':
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
-                            entities.add(new Brick(i, j, Sprite.brick.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            entities.add(new Brick(i, j, Sprite.brick));
                             break;
                         case 'p':
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
-                            entities.add(new Bomber(i, j, Sprite.player_right.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            entities.add(new Bomber(i, j, Sprite.player_right));
                             break;
                         case 'x':
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
-                            stillObjects.add(new Portal(i, j, Sprite.portal.getFxImage()));
-                            entities.add(new Brick(i, j, Sprite.brick.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            stillObjects.add(new Portal(i, j, Sprite.portal));
+                            entities.add(new Brick(i, j, Sprite.brick));
                             break;
                         case '1':
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
-                            entities.add(new Balloom(i, j, Sprite.balloom_right1.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            entities.add(new Balloom(i, j, Sprite.balloom_right1));
                             break;
                         case '2':
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
-                            entities.add(new Oneal(i, j, Sprite.oneal_right1.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            entities.add(new Oneal(i, j, Sprite.oneal_right1));
                             break;
                         case 'f':
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
-                            entities.add(new Flame_Item(i, j, Sprite.powerup_flames.getFxImage()));
-                            entities.add(new Brick(i, j, Sprite.brick.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            entities.add(new Flame_Item(i, j, Sprite.powerup_flames));
+                            entities.add(new Brick(i, j, Sprite.brick));
                             break;
                         default:
-                            stillObjects.add(new Grass(i, j, Sprite.grass.getFxImage()));
+                            stillObjects.add(new Grass(i, j, Sprite.grass));
                             break;
                     }
                 }
