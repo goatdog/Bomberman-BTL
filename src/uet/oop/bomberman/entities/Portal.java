@@ -7,9 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
-public class Bomber extends Entity {
+public class Portal extends Entity {
 
-    public Bomber(int x, int y, Image img) {
+    public Portal(int x, int y, Image img) {
         super( x, y, img);
     }
 
@@ -18,3 +18,4 @@ public class Bomber extends Entity {
 
     }
 }
+
