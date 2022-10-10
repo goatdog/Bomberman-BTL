@@ -11,9 +11,8 @@ import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.graphics.Sprite;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +20,11 @@ public class BombermanGame extends Application {
     
     public static int WIDTH = 31;
     public static int HEIGHT = 13;
-    
+
     private GraphicsContext gc;
     private Canvas canvas;
-    private List<Entity> entities = new ArrayList<>();
-    private List<Entity> stillObjects = new ArrayList<>();
+    public static List<Entity> entities = new ArrayList<>();
+    public static List<Entity> stillObjects = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -76,8 +75,10 @@ public class BombermanGame extends Application {
         List<String> map = new ArrayList<String>();
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            FileReader input = new FileReader("C:\\Users\\dell\\IdeaProjects\\bomberman-starter-starter-2\\res\\levels\\Level1.txt");
-            BufferedReader scanner = new BufferedReader(input);
+            URL url = loader.getResource("./levels/Level1.txt");
+            String path = url.getPath();
+            File input = new File(path);
+            BufferedReader scanner = new BufferedReader(new FileReader(input));
             String line = "";
             while(true) {
                 line = scanner.readLine();
