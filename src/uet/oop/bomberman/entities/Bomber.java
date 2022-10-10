@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
@@ -75,6 +76,19 @@ public class Bomber extends Entity {
             is_Move = true;
         } else {
             is_Move = false;
+        }
+        for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+            if (BombermanGame.stillObjects.get(i) instanceof Wall
+                    && this.checkCollision(BombermanGame.stillObjects.get(i))) {
+                x -= dx;
+                y -= dy;
+            }
+        }
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            if (this.checkCollision(BombermanGame.entities.get(i))) {
+                x -= dx;
+                y -= dy;
+            }
         }
     }
     @Override
