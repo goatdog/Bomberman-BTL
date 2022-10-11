@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.Random;
+
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
     protected int x;
@@ -16,6 +18,8 @@ public abstract class Entity {
     protected int y;
     protected Sprite sprite;
     protected Image img;
+    protected int direction;
+    protected int dx = 0, dy = 0;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity( int xUnit, int yUnit, Sprite sprite) {
@@ -73,5 +77,12 @@ public abstract class Entity {
             }
         }
         return false;
+    }
+
+    public void calculateMove() {
+        if (x % 32 == 0 && y % 32 == 0) {
+            Random rand = new Random();
+            direction = rand.nextInt(4);
+        }
     }
 }
