@@ -12,7 +12,6 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
-    private int dx = 0, dy = 0;
     private boolean is_Move = false;
     private static final int BomberSpeed = 2;
     public Bomber(int x, int y, Sprite sprite) {
@@ -69,6 +68,33 @@ public class Bomber extends Entity {
         });
     }
 
+    public void optimize(Entity other) {
+        int this_top = y;
+        int this_bottom = y + sprite.get_realHeight() * 2;
+        int this_left = x;
+        int this_right = x + sprite.get_realWidth() * 2;
+        int other_top = other.y;
+        int other_bottom = other.y + other.sprite.get_realHeight() * 2;
+        int other_left = other.x;
+        int other_right = other.x + other.sprite.get_realWidth() * 2;
+        if (dx > 0 && this.checkCollision(other)) {
+            if (other_bottom - this_top <= 2 * BomberSpeed) y += other_bottom - this_top;
+            if (this_bottom - other_top <= 2 * BomberSpeed) y -= this_bottom - other_top;
+        }
+        if (dx < 0 && this.checkCollision(other)) {
+            if (other_bottom - this_top <= 2 * BomberSpeed) y += other_bottom - this_top;
+            if (this_bottom - other_top <= 2 * BomberSpeed) y -= this_bottom - other_top;
+        }
+        if (dy > 0 && this.checkCollision(other)) {
+            if (this_right - other_left <= 2 * BomberSpeed) x -= this_right - other_left;
+            if (other_right - this_left <= 2 * BomberSpeed) x += other_right - this_left;
+        }
+        if (dy < 0 && this.checkCollision(other)) {
+            if (this_right - other_left <= 2 * BomberSpeed) x -= this_right - other_left;
+            if (other_right - this_left <= 2 * BomberSpeed) x += other_right - this_left;
+        }
+    }
+
     public void move() {
         x += dx;
         y += dy;
@@ -78,13 +104,16 @@ public class Bomber extends Entity {
             is_Move = false;
         }
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-            if (BombermanGame.stillObjects.get(i) instanceof Wall
-                    && this.checkCollision(BombermanGame.stillObjects.get(i))) {
-                x -= dx;
-                y -= dy;
+            if (BombermanGame.stillObjects.get(i) instanceof Wall) {
+                optimize(BombermanGame.stillObjects.get(i));
+                if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
+                    x -= dx;
+                    y -= dy;
+                }
             }
         }
         for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            optimize(BombermanGame.entities.get(i));
             if (this.checkCollision(BombermanGame.entities.get(i))) {
                 x -= dx;
                 y -= dy;
