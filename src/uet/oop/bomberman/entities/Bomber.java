@@ -14,6 +14,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomber extends Entity {
     private boolean is_Move = false;
     private static final int BomberSpeed = 2;
+    protected int dx = 0, dy = 0;
     public Bomber(int x, int y, Sprite sprite) {
         super( x, y, sprite);
     }
@@ -78,20 +79,20 @@ public class Bomber extends Entity {
         int other_left = other.x;
         int other_right = other.x + other.sprite.get_realWidth() * 2;
         if (dx > 0 && this.checkCollision(other)) {
-            if (other_bottom - this_top <= 2 * BomberSpeed) y += other_bottom - this_top;
-            if (this_bottom - other_top <= 2 * BomberSpeed) y -= this_bottom - other_top;
+            if (other_bottom - this_top <= 4 * BomberSpeed) y += other_bottom - this_top;
+            if (this_bottom - other_top <= 4 * BomberSpeed) y -= this_bottom - other_top;
         }
         if (dx < 0 && this.checkCollision(other)) {
-            if (other_bottom - this_top <= 2 * BomberSpeed) y += other_bottom - this_top;
-            if (this_bottom - other_top <= 2 * BomberSpeed) y -= this_bottom - other_top;
+            if (other_bottom - this_top <= 4 * BomberSpeed) y += other_bottom - this_top;
+            if (this_bottom - other_top <= 4 * BomberSpeed) y -= this_bottom - other_top;
         }
         if (dy > 0 && this.checkCollision(other)) {
-            if (this_right - other_left <= 2 * BomberSpeed) x -= this_right - other_left;
-            if (other_right - this_left <= 2 * BomberSpeed) x += other_right - this_left;
+            if (this_right - other_left <= 4 * BomberSpeed) x -= this_right - other_left;
+            if (other_right - this_left <= 4 * BomberSpeed) x += other_right - this_left;
         }
         if (dy < 0 && this.checkCollision(other)) {
-            if (this_right - other_left <= 2 * BomberSpeed) x -= this_right - other_left;
-            if (other_right - this_left <= 2 * BomberSpeed) x += other_right - this_left;
+            if (this_right - other_left <= 4 * BomberSpeed) x -= this_right - other_left;
+            if (other_right - this_left <= 4 * BomberSpeed) x += other_right - this_left;
         }
     }
 
@@ -120,9 +121,40 @@ public class Bomber extends Entity {
             }
         }
     }
+
+    public void setCurrentSprite() {
+        if (dx > 0) {
+            this.sprite = Sprite.player_right;
+            if (is_Move) this.sprite = Sprite.movingSprite(Sprite.player_right_1,
+                    Sprite.player_right_2, selfcount, 20);
+        }
+        if (dx < 0) {
+            this.sprite = Sprite.player_left;
+            if (is_Move) this.sprite = Sprite.movingSprite(Sprite.player_left_1,
+                    Sprite.player_left_2, selfcount, 20);
+        }
+        if (dy > 0) {
+            this.sprite = Sprite.player_down;
+            if (is_Move) this.sprite = Sprite.movingSprite(Sprite.player_down_1,
+                    Sprite.player_down_2, selfcount, 20);
+        }
+        if (dy < 0) {
+            this.sprite = Sprite.player_up;
+            if (is_Move) this.sprite = Sprite.movingSprite(Sprite.player_up_1,
+                    Sprite.player_up_2, selfcount, 20);
+        }
+    }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        setCurrentSprite();
+        Image cur = sprite.getFxImage();
+        gc.drawImage(cur, x, y);
+    }
     @Override
     public void update(Scene scene) {
         setKey(scene);
+        count();
         move();
     }
 }

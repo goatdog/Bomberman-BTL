@@ -18,8 +18,7 @@ public abstract class Entity {
     protected int y;
     protected Sprite sprite;
     protected Image img;
-    protected int direction;
-    protected int dx = 0, dy = 0;
+    protected static int selfcount = 0;
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity( int xUnit, int yUnit, Sprite sprite) {
@@ -79,10 +78,10 @@ public abstract class Entity {
         return false;
     }
 
-    public void calculateMove() {
-        if (x % 32 == 0 && y % 32 == 0) {
-            Random rand = new Random();
-            direction = rand.nextInt(4);
-        }
+    public void count() {
+        selfcount++;
+        if (selfcount == 100) selfcount = 0;
     }
+
+    public void setCurrentSprite() {};
 }

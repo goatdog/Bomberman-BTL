@@ -12,8 +12,9 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Balloom extends Entity {
+public class Balloom extends Enemy {
     private static final int BalloomSpeed = 1;
+    private boolean balloomCollision = false;
 
     public Balloom(int x, int y, Sprite sprite) {
         super( x, y, sprite);
@@ -21,24 +22,7 @@ public class Balloom extends Entity {
     }
 
     public void move() {
-        calculateMove();
-        if (direction == 0) {
-            dx = BalloomSpeed;
-            dy = 0;
-        }
-        else if(direction == 1) {
-            dx = -BalloomSpeed;
-            dy = 0;
-        }
-        else if(direction == 2) {
-            dy = BalloomSpeed;
-            dx = 0;
-        }
-        else if(direction == 3) {
-            dy = -BalloomSpeed;
-            dx = 0;
-        }
-        System.out.println(dx + " " + dy);
+        calculateMove(BalloomSpeed);
         x += dx;
         y += dy;
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
@@ -55,16 +39,36 @@ public class Balloom extends Entity {
                 x -= dx;
                 y -= dy;
             }
+            if (BombermanGame.entities.get(i) instanceof Enemy
+                    && this.checkCollision(BombermanGame.entities.get(i))) {
+                while (x % 32 != 0 || y % 32 != 0) {
+                    x -= dx;
+                    y -= dy;
+                }
+            }
+        }
+    }
+
+    public void setCurrentSprite() {
+        if (dx > 0 || dy > 0) {
+            this.sprite = Sprite.movingSprite(Sprite.balloom_right1,
+                    Sprite.balloom_right2, Sprite.balloom_right3, selfcount, 20);
+        }
+        if (dx < 0 || dy < 0) {
+            this.sprite = Sprite.movingSprite(Sprite.balloom_left1,
+                    Sprite.balloom_left2, Sprite.balloom_left3, selfcount, 20);
         }
     }
 
     @Override
     public void render(GraphicsContext gc) {
-        move();
+        setCurrentSprite();
         Image cur = sprite.getFxImage();
         gc.drawImage(cur, x, y);
     }
 
     @Override
-    public void update(Scene scene) {}
+    public void update(Scene scene) {
+        move();
+    }
 }
