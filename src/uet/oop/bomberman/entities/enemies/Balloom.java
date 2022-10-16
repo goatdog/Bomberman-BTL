@@ -25,6 +25,7 @@ public class Balloom extends Enemy {
         calculateMove(BalloomSpeed);
         x += dx;
         y += dy;
+        changepos(x, y, '1');
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
             if (BombermanGame.stillObjects.get(i) instanceof Wall) {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
@@ -39,13 +40,13 @@ public class Balloom extends Enemy {
                 x -= dx;
                 y -= dy;
             }
-            if (BombermanGame.entities.get(i) instanceof Enemy
+            /*if (BombermanGame.entities.get(i) instanceof Enemy
                     && this.checkCollision(BombermanGame.entities.get(i))) {
                 while (x % 32 != 0 || y % 32 != 0) {
                     x -= dx;
                     y -= dy;
                 }
-            }
+            }*/
         }
     }
 

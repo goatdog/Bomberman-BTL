@@ -25,6 +25,7 @@ public class BombermanGame extends Application {
     private Canvas canvas;
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
+    private static char curmap[][] = new char[HEIGHT][WIDTH];
 
 
     public static void main(String[] args) {
@@ -93,6 +94,8 @@ public class BombermanGame extends Application {
             HEIGHT = Integer.parseInt(data[1]);
             for (int j = 0; j < HEIGHT ; j++) {
                 for (int i = 0; i < WIDTH; i++) {
+                    curmap[j][i] = map.get(j+1).charAt(i);
+                    System.out.print(curmap[j][i]);
                     switch(map.get(j + 1).charAt(i)) {
                         case '#':
                             stillObjects.add(new Wall(i, j, Sprite.wall));
@@ -146,5 +149,17 @@ public class BombermanGame extends Application {
         entities.forEach(g -> {
             g.render(gc);
         });
+    }
+
+    public static char[][] getCurmap() {
+        return curmap;
+    }
+
+    public static void setGrid(int i, int j, char val) {
+        curmap[i][j] = val;
+    }
+
+    public static char getGrid(int i, int j) {
+        return curmap[i][j];
     }
 }

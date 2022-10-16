@@ -12,22 +12,22 @@ public abstract class Enemy extends Entity {
         super(x, y, sprite);
     }
     public void calculateMove(int speed) {
-            if ((x % 32 == 0 && y % 32 == 0)) {
-                Random rand = new Random();
-                direction = rand.nextInt(4);
-            }
-            if (direction == 0) {
-                dx = speed;
-                dy = 0;
-            } else if (direction == 1) {
-                dx = -speed;
-                dy = 0;
-            } else if (direction == 2) {
-                dy = speed;
-                dx = 0;
-            } else if (direction == 3) {
-                dy = -speed;
-                dx = 0;
-            }
+        if ((x % 32 == 0 && y % 32 == 0)) {
+            Random rand = new Random();
+            direction = rand.nextInt(4);
+        }
+        if (direction == 0) {
+            dx = speed;
+            dy = 0;
+        } else if (direction == 1) {
+            dx = -speed;
+            dy = 0;
+        } else if (direction == 2) {
+            dy = speed;
+            dx = 0;
+        } else if (direction == 3) {
+            dy = -speed;
+            dx = 0;
+        }
     }
 }
