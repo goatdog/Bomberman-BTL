@@ -94,11 +94,13 @@ public class Bomber extends Entity {
             if (this_right - other_left <= 4 * BomberSpeed) x -= this_right - other_left;
             if (other_right - this_left <= 4 * BomberSpeed) x += other_right - this_left;
         }
+        changepos(x, y, 'p');
     }
 
     public void move() {
         x += dx;
         y += dy;
+        changepos(x, y, 'p');
         if (dx != 0 || dy != 0) {
             is_Move = true;
         } else {
@@ -120,6 +122,18 @@ public class Bomber extends Entity {
                 y -= dy;
             }
         }
+    }
+
+    @Override
+    public void changepos(int x, int y, char symbol) {
+        for (int k = 0; k < 4; k++) {
+            if (y / 32 + vy[k] >= 0 && y / 32 + vy[k] < BombermanGame.HEIGHT && x / 32 + vx[k] >= 0 && x / 32 + vx[k] < BombermanGame.WIDTH) {
+                if (BombermanGame.getGrid(y / 32 + vy[k], x / 32 + vx[k]) == symbol) {
+                    BombermanGame.setGrid(y / 32 + vy[k], x / 32 + vx[k], ' ');
+                }
+            }
+        }
+        if (y / 32 >= 0 && y / 32 < BombermanGame.HEIGHT && x / 32 >= 0 && x / 32 < BombermanGame.WIDTH)BombermanGame.setGrid((y) / 32, (x) / 32, symbol);
     }
 
     public void setCurrentSprite() {
