@@ -13,15 +13,18 @@ import java.util.Random;
 
 public abstract class Entity {
     //Tọa độ X tính từ góc trái trên trong Canvas
-    public int x;
+    protected int x;
 
     //Tọa độ Y tính từ góc trái trên trong Canvas
-    public int y;
+    protected int y;
     protected Sprite sprite;
     protected Image img;
     protected static int selfcount = 0;
     public static int vx[] = {1, -1, 0, 0};
     public static int vy[] = {0, 0, 1, -1};
+
+    public static int spvx[] = {1, -1, 0, 1, -1, 0, 1, -1};
+    public static int spvy[] = {0, 0, 1, 1, 1, -1, -1, -1};
 
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity( int xUnit, int yUnit, Sprite sprite) {
@@ -88,16 +91,11 @@ public abstract class Entity {
 
     public void setCurrentSprite() {};
 
-    public void changepos(int x, int y, char symbol) {
-        if ((x) % 32 == 0 && (y) % 32 == 0) {
-            for (int k = 0; k < 4; k++) {
-                if (y / 32 + vy[k] >= 0 && y / 32 + vy[k] < BombermanGame.HEIGHT && x / 32 + vx[k] >= 0 && x / 32 + vx[k] < BombermanGame.WIDTH) {
-                    if (BombermanGame.getGrid(y / 32 + vy[k], x / 32 + vx[k]) == symbol) {
-                        BombermanGame.setGrid(y / 32 + vy[k], x / 32 + vx[k], ' ');
-                    }
-                }
-            }
-            if (y / 32 >= 0 && y / 32 < BombermanGame.HEIGHT && x / 32 >= 0 && x / 32 < BombermanGame.WIDTH)BombermanGame.setGrid((y) / 32, (x) / 32, symbol);
-        }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

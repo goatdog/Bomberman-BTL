@@ -13,6 +13,8 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.Random;
+
 public class Oneal extends Enemy {
     private static final int OnealSpeed = 2;
     private boolean onealCollision = false;
@@ -24,11 +26,21 @@ public class Oneal extends Enemy {
         sprite = Sprite.oneal_right1;
     }
 
+    private int getBoardX() {
+        if (x % Sprite.SCALED_SIZE == 0) return x / Sprite.SCALED_SIZE;
+        else return x / Sprite.SCALED_SIZE + 1;
+    }
+
+    private int getBoardY() {
+        if (y % Sprite.SCALED_SIZE == 0) return y / Sprite.SCALED_SIZE;
+        else return y / Sprite.SCALED_SIZE + 1;
+    }
+
     public void dfs(char board[][], int i, int j) {
-        if (i == y && j == x) return;
+        if (i == getBoardY() && j == getBoardX()) return;
         for (int k = 0; k < 4; k++) {
             if (i + vy[k] < 0 || j + vx[k] < 0 || i + vy[k] >= BombermanGame.HEIGHT || j + vx[k] >= BombermanGame.WIDTH) continue;
-            if (board[i + vy[k]][j + vx[k]] != '#' && board[i + vy[k]][j + vx[k]] != '*') {
+            if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#') {
                 if (dis[i + vy[k]][j + vx[k]] > dis[i][j] + 1) {
                     dis[i + vy[k]][j + vx[k]] = dis[i][j] + 1;
                     dfs(board, i + vy[k], j + vx[k]);
@@ -39,7 +51,6 @@ public class Oneal extends Enemy {
 
     @Override
     public void calculateMove(int speed) {
-        char[][] board = BombermanGame.getCurmap();
         int a = 0, b = 0;
         for (int i = 0; i < BombermanGame.HEIGHT; i++) {
             for (int j = 0; j < BombermanGame.WIDTH; j++) {
@@ -48,46 +59,64 @@ public class Oneal extends Enemy {
                     a = i;
                     b = j;
                 }
+                //System.out.print(board[i][j]);
             }
+            //System.out.print("\n");
         }
-        if (Math.abs(a - y / 32) <= 10 && Math.abs(b - x / 32) <= 10) {
+        if (Math.abs(a - y / Sprite.SCALED_SIZE) <= 8 && Math.abs(b - x / Sprite.SCALED_SIZE) <= 8) {
             dis[a][b] = 0;
-            dfs(board, a, b);
-            int rx = x, ry = y;
-            x = x / 32;
-            y = y / 32;
-            System.out.println(y + " " + x);
-            if (x >= 0 && x + 1 < BombermanGame.WIDTH && dis[y][x] - dis[y][x + 1] == 1 && board[y][x] == '2') {
-                dx = speed;
-                dy = 0;
-            } else if (x - 1 >= 0 && x < BombermanGame.WIDTH && dis[y][x] - dis[y][x - 1] == 1 && board[y][x] == '2') {
-                dx = -speed;
-                dy = 0;
-            } else if (y >= 0 && y + 1 < BombermanGame.HEIGHT && dis[y][x] - dis[y + 1][x] == 1 && board[y][x] == '2') {
-                dy = speed;
-                dx = 0;
-            } else if (y - 1 >= 0 && y < BombermanGame.HEIGHT && dis[y][x] - dis[y - 1][x] == 1 && board[y][x] == '2') {
-                dy = -speed;
-                dx = 0;
+            if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
+                dfs(board, a, b);
+                int rx = x, ry = y;
+                x = getBoardX();
+                y = getBoardY();
+                System.out.println(dis[y][x] + " " + dis[y][x + 1] + " " + dis[y][x - 1] + " " + dis[y + 1][x] + " " + dis[y - 1][x]);
+                System.out.println(board[y][x] + " " + y + " " + x);
+                if (x >= 0 && x + 1 < BombermanGame.WIDTH && dis[y][x] - dis[y][x + 1] == 1) {
+                    dx = speed;
+                    dy = 0;
+                    System.out.println("right");
+                } else if (x - 1 >= 0 && x < BombermanGame.WIDTH && dis[y][x] - dis[y][x - 1] == 1) {
+                    dx = -speed;
+                    dy = 0;
+                    System.out.println("left");
+                } else if (y >= 0 && y + 1 < BombermanGame.HEIGHT && dis[y][x] - dis[y + 1][x] == 1) {
+                    dy = speed;
+                    dx = 0;
+                    System.out.println("down");
+                } else if (y - 1 >= 0 && y < BombermanGame.HEIGHT && dis[y][x] - dis[y - 1][x] == 1) {
+                    dy = -speed;
+                    dx = 0;
+                    System.out.println("up");
+                }
+                x = rx;
+                y = ry;
             }
-            x = rx;
-            y = ry;
         } else {
-            super.calculateMove(1);
+            int scale = Sprite.SCALED_SIZE;
+            super.calculateMove(speed / 2);
             return;
         }
+        System.out.println(dx + " " + dy);
     }
 
     public void move() {
         this.calculateMove(OnealSpeed);
+        if (!onealCollision) this.calculateMove(OnealSpeed);
+        else {
+            super.calculateMove(OnealSpeed);
+            onealCollision = false;
+        }
         x += dx;
         y += dy;
-        changepos(x, y, '2');
+        changepos('2');
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
             if (BombermanGame.stillObjects.get(i) instanceof Wall) {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
                     x -= dx;
                     y -= dy;
+                    onealCollision = true;
+                    changepos('2');
                 }
             }
         }
@@ -96,6 +125,8 @@ public class Oneal extends Enemy {
                     && this.checkCollision(BombermanGame.entities.get(i))) {
                 x -= dx;
                 y -= dy;
+                onealCollision = true;
+                changepos('2');
             }
             /*if (BombermanGame.entities.get(i) instanceof Enemy
                     && this.checkCollision(BombermanGame.entities.get(i))) {

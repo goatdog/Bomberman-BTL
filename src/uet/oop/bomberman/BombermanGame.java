@@ -95,7 +95,6 @@ public class BombermanGame extends Application {
             for (int j = 0; j < HEIGHT ; j++) {
                 for (int i = 0; i < WIDTH; i++) {
                     curmap[j][i] = map.get(j+1).charAt(i);
-                    System.out.print(curmap[j][i]);
                     switch(map.get(j + 1).charAt(i)) {
                         case '#':
                             stillObjects.add(new Wall(i, j, Sprite.wall));
@@ -161,5 +160,25 @@ public class BombermanGame extends Application {
 
     public static char getGrid(int i, int j) {
         return curmap[i][j];
+    }
+
+    public static int getBomberX() {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity tmp = entities.get(i);
+            if (tmp instanceof Bomber) {
+                return tmp.getX();
+            }
+        }
+        return 1;
+    }
+
+    public static int getBomberY() {
+        for (int i = 0; i < entities.size(); i++) {
+            Entity tmp = entities.get(i);
+            if (tmp instanceof Bomber) {
+                return tmp.getY();
+            }
+        }
+        return 1;
     }
 }

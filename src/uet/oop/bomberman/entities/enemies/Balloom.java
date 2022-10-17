@@ -25,7 +25,6 @@ public class Balloom extends Enemy {
         calculateMove(BalloomSpeed);
         x += dx;
         y += dy;
-        changepos(x, y, '1');
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
             if (BombermanGame.stillObjects.get(i) instanceof Wall) {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
