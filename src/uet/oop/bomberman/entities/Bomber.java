@@ -13,7 +13,7 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomber extends Entity {
     private boolean is_Move = false;
-    private static final int BomberSpeed = 4;
+    private static final int BomberSpeed = 2;
     protected int dx = 0, dy = 0;
     public Bomber(int x, int y, Sprite sprite) {
         super( x, y, sprite);

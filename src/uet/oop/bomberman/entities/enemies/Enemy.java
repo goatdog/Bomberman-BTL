@@ -10,9 +10,21 @@ public abstract class Enemy extends Entity {
     public char[][] board = BombermanGame.getCurmap();
     protected int direction;
     protected int dx = 0, dy = 0;
+
+    public int getBoardX() {
+        if (x % Sprite.SCALED_SIZE == 0) return x / Sprite.SCALED_SIZE;
+        else return x / Sprite.SCALED_SIZE + 1;
+    }
+
+    public int getBoardY() {
+        if (y % Sprite.SCALED_SIZE == 0) return y / Sprite.SCALED_SIZE;
+        else return y / Sprite.SCALED_SIZE + 1;
+    }
+
     public Enemy(int x, int y, Sprite sprite) {
         super(x, y, sprite);
     }
+
     public void calculateMove(int speed) {
         if ((x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0)) {
             Random rand = new Random();
@@ -38,10 +50,10 @@ public abstract class Enemy extends Entity {
         if ((x) % scale == 0 && (y) % scale == 0) {
             if (board[y / scale][x / scale] == ' ') {
                 board[y / scale][x / scale] = symbol;
-                for (int k = 0; k < 4; k++) {
-                    if (y / scale + vy[k] >= 0 && y / scale + vy[k] < BombermanGame.HEIGHT && x / scale + vx[k] >= 0 && x / scale + vx[k] < BombermanGame.WIDTH) {
-                        if (board[y / scale + vy[k]][x / scale + vx[k]] == symbol) {
-                            board[y / scale + vy[k]][x / scale + vx[k]] = ' ';
+                for (int k = 0; k < 8; k++) {
+                    if (y / scale + spvy[k] >= 0 && y / scale + spvy[k] < BombermanGame.HEIGHT && x / scale + spvx[k] >= 0 && x / scale + spvx[k] < BombermanGame.WIDTH) {
+                        if (board[y / scale + spvy[k]][x / scale + spvx[k]] == symbol) {
+                            board[y / scale + spvy[k]][x / scale + spvx[k]] = ' ';
                         }
                     }
                 }
