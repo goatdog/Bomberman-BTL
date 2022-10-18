@@ -26,16 +26,6 @@ public class Oneal extends Enemy {
         sprite = Sprite.oneal_right1;
     }
 
-    private int getBoardX() {
-        if (x % Sprite.SCALED_SIZE == 0) return x / Sprite.SCALED_SIZE;
-        else return x / Sprite.SCALED_SIZE + 1;
-    }
-
-    private int getBoardY() {
-        if (y % Sprite.SCALED_SIZE == 0) return y / Sprite.SCALED_SIZE;
-        else return y / Sprite.SCALED_SIZE + 1;
-    }
-
     public void dfs(char board[][], int i, int j) {
         if (i == getBoardY() && j == getBoardX()) return;
         for (int k = 0; k < 4; k++) {
@@ -63,7 +53,7 @@ public class Oneal extends Enemy {
             }
             //System.out.print("\n");
         }
-        if (Math.abs(a - y / Sprite.SCALED_SIZE) <= 8 && Math.abs(b - x / Sprite.SCALED_SIZE) <= 8) {
+        if (Math.abs(a - y / Sprite.SCALED_SIZE) <= BombermanGame.HEIGHT / 2 && Math.abs(b - x / Sprite.SCALED_SIZE) <= BombermanGame.WIDTH / 3) {
             dis[a][b] = 0;
             if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
                 dfs(board, a, b);
@@ -102,11 +92,11 @@ public class Oneal extends Enemy {
 
     public void move() {
         this.calculateMove(OnealSpeed);
-        if (!onealCollision) this.calculateMove(OnealSpeed);
-        else {
-            super.calculateMove(OnealSpeed);
-            onealCollision = false;
-        }
+//        if (!onealCollision) this.calculateMove(OnealSpeed);
+//        else {
+//            super.calculateMove(OnealSpeed);
+//            onealCollision = false;
+//        }
         x += dx;
         y += dy;
         changepos('2');
@@ -115,7 +105,6 @@ public class Oneal extends Enemy {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
                     x -= dx;
                     y -= dy;
-                    onealCollision = true;
                     changepos('2');
                 }
             }
@@ -125,7 +114,6 @@ public class Oneal extends Enemy {
                     && this.checkCollision(BombermanGame.entities.get(i))) {
                 x -= dx;
                 y -= dy;
-                onealCollision = true;
                 changepos('2');
             }
             /*if (BombermanGame.entities.get(i) instanceof Enemy
