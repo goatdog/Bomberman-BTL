@@ -1,19 +1,12 @@
 package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Brick;
-import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.Wall;
+import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
-
-import java.util.Random;
 
 public class Oneal extends Enemy {
     private static final int OnealSpeed = 2;
@@ -78,6 +71,11 @@ public class Oneal extends Enemy {
                     dy = -speed;
                     dx = 0;
                     System.out.println("up");
+                } else {
+                    x = rx;
+                    y = ry;
+                    super.calculateMove(speed / 2);
+                    System.out.println("can't reach bomber");
                 }
                 x = rx;
                 y = ry;

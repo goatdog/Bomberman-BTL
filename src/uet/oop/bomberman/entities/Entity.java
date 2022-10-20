@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.util.Random;
 
 public abstract class Entity {
@@ -26,12 +27,15 @@ public abstract class Entity {
     public static int spvx[] = {1, -1, 0, 1, -1, 0, 1, -1};
     public static int spvy[] = {0, 0, 1, 1, 1, -1, -1, -1};
 
+    protected boolean alive;
+
     //Khởi tạo đối tượng, chuyển từ tọa độ đơn vị sang tọa độ trong canvas
     public Entity( int xUnit, int yUnit, Sprite sprite) {
         this.x = xUnit * Sprite.SCALED_SIZE;
         this.y = yUnit * Sprite.SCALED_SIZE;
         this.sprite = sprite;
         this.img = sprite.getFxImage();
+        this.alive = true;
     }
 
     public void render(GraphicsContext gc) {
@@ -97,5 +101,17 @@ public abstract class Entity {
 
     public int getY() {
         return y;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 }
