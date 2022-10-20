@@ -261,23 +261,6 @@ public class Sprite {
         return resample(input, SCALED_SIZE / DEFAULT_SIZE);
     }
 
-	public Image getFxImageForPlayer() {
-		WritableImage wr = new WritableImage(SIZE, SIZE);
-		PixelWriter pw = wr.getPixelWriter();
-		for (int x = 0; x < SIZE; x++) {
-			for (int y = 0; y < SIZE; y++) {
-				if ( _pixels[x + y * SIZE] == TRANSPARENT_COLOR) {
-					pw.setArgb(x, y, 0);
-				}
-				else {
-					pw.setArgb(x, y, _pixels[x + y * SIZE]);
-				}
-			}
-		}
-		Image input = new ImageView(wr).getImage();
-		return resample(input,2);
-	}
-
 	private Image resample(Image input, int scaleFactor) {
 		final int W = (int) input.getWidth();
 		final int H = (int) input.getHeight();
