@@ -36,8 +36,8 @@ public class BombermanGame extends Application {
     public static List<Entity> stillObjects = new ArrayList<>();
 
     public static List<Flame> flameList = new ArrayList<>();
-    private static char curmap[][] = new char[HEIGHT][WIDTH];
-    public static int cout = 10; // số mạng
+    private static char curmap[][] = new char[HEIGHT + 1][WIDTH];
+    public static int lives = 3; // số mạng
     public static int countTime =0;
     public static int time = 400; // cài time
     public static int score =0; // point
@@ -53,7 +53,7 @@ public class BombermanGame extends Application {
     @Override
     public void start(Stage stage) throws IOException{
         // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
+        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * (HEIGHT + 1));
         gc = canvas.getGraphicsContext2D();
 
         // Tao root container
@@ -115,39 +115,39 @@ public class BombermanGame extends Application {
             HEIGHT = Integer.parseInt(data[1]);
             for (int j = 0; j < HEIGHT ; j++) {
                 for (int i = 0; i < WIDTH; i++) {
-                    curmap[j][i] = map.get(j+1).charAt(i);
+                    curmap[j + 1][i] = map.get(j+1).charAt(i);
                     switch(map.get(j + 1).charAt(i)) {
                         case '#':
-                            stillObjects.add(new Wall(i, j, Sprite.wall));
+                            stillObjects.add(new Wall(i, j + 1, Sprite.wall));
                             break;
                         case '*':
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
-                            entities.add(new Brick(i, j, Sprite.brick));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            entities.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         case 'p':
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
-                            entities.add(new Bomber(i, j, Sprite.player_right));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            entities.add(new Bomber(i, j + 1, Sprite.player_right));
                             break;
                         case 'x':
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
-                            stillObjects.add(new Portal(i, j, Sprite.portal));
-                            entities.add(new Brick(i, j, Sprite.brick));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            stillObjects.add(new Portal(i, j + 1, Sprite.portal));
+                            entities.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         case '1':
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
-                            entities.add(new Balloom(i, j, Sprite.balloom_right1));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            entities.add(new Balloom(i, j + 1, Sprite.balloom_right1));
                             break;
                         case '2':
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
-                            entities.add(new Oneal(i, j, Sprite.oneal_right1));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            entities.add(new Oneal(i, j + 1, Sprite.oneal_right1));
                             break;
                         case 'f':
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
-                            stillObjects.add(new Flame_Item(i, j, Sprite.powerup_flames));
-                            entities.add(new Brick(i, j, Sprite.brick));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            stillObjects.add(new Flame_Item(i, j + 1, Sprite.powerup_flames));
+                            entities.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         default:
-                            stillObjects.add(new Grass(i, j, Sprite.grass));
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             break;
                     }
                 }
@@ -158,12 +158,14 @@ public class BombermanGame extends Application {
     }
 
     public void update(Scene scene) {
-        if(countTime% 60==0){
+        coutTime();
+        if(countTime % 60 == 0){
             time--;
         }
+        if (Bomber.lives >= 0) lives = Bomber.lives;
         jpanel.setTimes(time); // set time
         jpanel.setPoint(score); // set điểm
-        jpanel.setLives(cout); // set mạng
+        jpanel.setLives(lives); // set mạng
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update(scene);
         }
@@ -189,7 +191,7 @@ public class BombermanGame extends Application {
         flameList.forEach(g -> g.render(gc));
     }
     public void coutTime() {
-        if ( countTime<400*60) {
+        if ( countTime < 400*60) {
             countTime++;
         }
     }
@@ -213,7 +215,7 @@ public class BombermanGame extends Application {
                 return tmp.getX();
             }
         }
-        return 32;
+        return Sprite.SCALED_SIZE;
     }
 
     public static int getBomberY() {
@@ -223,6 +225,6 @@ public class BombermanGame extends Application {
                 return tmp.getY();
             }
         }
-        return 32;
+        return Sprite.SCALED_SIZE * 2;
     }
 }
