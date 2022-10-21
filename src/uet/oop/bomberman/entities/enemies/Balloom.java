@@ -4,9 +4,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomb.Bomb;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.List;
 
 public class Balloom extends Enemy {
     private static final int BalloomSpeed = 1;
@@ -43,6 +47,13 @@ public class Balloom extends Enemy {
                 }
             }*/
         }
+        List<Bomb> bombs = Bomber.getBombs();
+        for (int i = 0; i < bombs.size(); i++) {
+            if (this.checkCollision(bombs.get(i))) {
+                x -= dx;
+                y -= dy;
+            }
+        }
     }
 
     public void setCurrentSprite() {
@@ -58,13 +69,19 @@ public class Balloom extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
-        setCurrentSprite();
-        Image cur = sprite.getFxImage();
-        gc.drawImage(cur, x, y);
+        img = sprite.getFxImage();
+        gc.drawImage(img, x, y);
     }
 
     @Override
     public void update(Scene scene) {
+        setCurrentSprite();
+        if (!isAlive()) {
+            timeCounter++;
+            dx = dy = 0;
+            die(Sprite.balloom_dead);
+            System.out.println(timeCounter);
+        }
         move();
     }
 }

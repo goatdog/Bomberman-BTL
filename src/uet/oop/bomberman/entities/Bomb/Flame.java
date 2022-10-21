@@ -44,6 +44,7 @@ public class Flame extends Entity {
         if (time < 20) {// thoi gian flame keo dai
             time++;
             setImg();
+            handleCollisionFlame();
         } else
             BombermanGame.flameList.remove(this);
 
@@ -232,6 +233,16 @@ public class Flame extends Entity {
                         ,Sprite.explosion_vertical_down_last2, time,20);
                 img = sprite.getFxImage();
                 break;
+        }
+    }
+
+    public void handleCollisionFlame() {
+        Rectangle r1 = this.getBounds();
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            Rectangle r2 = BombermanGame.entities.get(i).getBounds();
+            if (r1.intersects(r2)) {
+                BombermanGame.entities.get(i).setAlive(false);
+            }
         }
     }
 

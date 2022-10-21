@@ -4,9 +4,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomb.Bomb;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+
+import java.util.List;
 
 public class Oneal extends Enemy {
     private static final int OnealSpeed = 2;
@@ -23,7 +27,7 @@ public class Oneal extends Enemy {
         if (i == getBoardY() && j == getBoardX()) return;
         for (int k = 0; k < 4; k++) {
             if (i + vy[k] < 0 || j + vx[k] < 0 || i + vy[k] >= BombermanGame.HEIGHT || j + vx[k] >= BombermanGame.WIDTH) continue;
-            if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#') {
+            if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#' && board[i + vy[k]][j + vx[k]] != 'B') {
                 if (dis[i + vy[k]][j + vx[k]] > dis[i][j] + 1) {
                     dis[i + vy[k]][j + vx[k]] = dis[i][j] + 1;
                     dfs(board, i + vy[k], j + vx[k]);
@@ -50,32 +54,26 @@ public class Oneal extends Enemy {
             dis[a][b] = 0;
             if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
                 dfs(board, a, b);
+                System.out.println(a + " " + b);
                 int rx = x, ry = y;
                 x = getBoardX();
                 y = getBoardY();
-                System.out.println(dis[y][x] + " " + dis[y][x + 1] + " " + dis[y][x - 1] + " " + dis[y + 1][x] + " " + dis[y - 1][x]);
-                System.out.println(board[y][x] + " " + y + " " + x);
                 if (x >= 0 && x + 1 < BombermanGame.WIDTH && dis[y][x] - dis[y][x + 1] == 1) {
                     dx = speed;
                     dy = 0;
-                    System.out.println("right");
                 } else if (x - 1 >= 0 && x < BombermanGame.WIDTH && dis[y][x] - dis[y][x - 1] == 1) {
                     dx = -speed;
                     dy = 0;
-                    System.out.println("left");
                 } else if (y >= 0 && y + 1 < BombermanGame.HEIGHT && dis[y][x] - dis[y + 1][x] == 1) {
                     dy = speed;
                     dx = 0;
-                    System.out.println("down");
                 } else if (y - 1 >= 0 && y < BombermanGame.HEIGHT && dis[y][x] - dis[y - 1][x] == 1) {
                     dy = -speed;
                     dx = 0;
-                    System.out.println("up");
                 } else {
                     x = rx;
                     y = ry;
                     super.calculateMove(speed / 2);
-                    System.out.println("can't reach bomber");
                 }
                 x = rx;
                 y = ry;
@@ -85,7 +83,6 @@ public class Oneal extends Enemy {
             super.calculateMove(speed / 2);
             return;
         }
-        System.out.println(dx + " " + dy);
     }
 
     public void move() {
@@ -122,6 +119,13 @@ public class Oneal extends Enemy {
                 }
             }*/
         }
+        List<Bomb> bombs = Bomber.getBombs();
+        for (int i = 0; i < bombs.size(); i++) {
+            if (this.checkCollision(bombs.get(i))) {
+                x -= dx;
+                y -= dy;
+            }
+        }
     }
 
     public void setCurrentSprite() {
@@ -137,13 +141,19 @@ public class Oneal extends Enemy {
 
     @Override
     public void render(GraphicsContext gc) {
-        setCurrentSprite();
-        Image cur = sprite.getFxImage();
-        gc.drawImage(cur, x, y);
+        img = sprite.getFxImage();
+        gc.drawImage(img, x, y);
     }
 
     @Override
     public void update(Scene scene) {
+        setCurrentSprite();
+        if (!isAlive()) {
+            timeCounter++;
+            dx = dy = 0;
+            die(Sprite.oneal_dead);
+            System.out.println(timeCounter);
+        }
         move();
     }
 }

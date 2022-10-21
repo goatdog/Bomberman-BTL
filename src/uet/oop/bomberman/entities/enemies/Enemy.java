@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities.enemies;
 
+import javafx.scene.Scene;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
@@ -10,6 +11,8 @@ public abstract class Enemy extends Entity {
     public char[][] board = BombermanGame.getCurmap();
     protected int direction;
     protected int dx = 0, dy = 0;
+
+    protected int timeCounter = 0;
 
     public int getBoardX() {
         if (x % Sprite.SCALED_SIZE == 0) return x / Sprite.SCALED_SIZE;
@@ -70,6 +73,16 @@ public abstract class Enemy extends Entity {
                     }
                 }
             }
+        }
+    }
+
+    public void die(Sprite _sprite) {
+        if (timeCounter <= 45) {
+            sprite = _sprite;
+        } else if (timeCounter <= 75) {
+            sprite = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, timeCounter, 20);
+        } else {
+            BombermanGame.entities.remove(this);
         }
     }
 }
