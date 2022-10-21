@@ -17,12 +17,13 @@ public class Bomber extends Entity {
     private int bombRemain; // khai báo biến số bom dự trữ
     private boolean placeBombCommand = false; // quản lý về việc đặt bom( trả về true or false)
 
-    private boolean isAllowedGoToBom = false;
+    //private boolean isAllowedGoToBom = false;
     // quản lý về viêệc đi xuyên qua bom trả về true or false
 
     private static final List<Bomb> bombs = new ArrayList<>(); // khai báo list quản lý bom
     private int radius; // biến bán kính nổ
     private boolean is_Move = false;
+    public static int cout = 10; // số mạng
     private static final int BomberSpeed = 2;
     protected int dx = 0, dy = 0;
 
@@ -41,13 +42,13 @@ public class Bomber extends Entity {
         this.radius = radius;
     }
 
-    public int getRadius() {
+    /*public int getRadius() {
         return radius;
-    }
+    }*/
 
-    public int getBombRemain() {
+    /*public int getBombRemain() {
         return bombRemain;
-    }
+    }*/
 
     public void setBombRemain(int bombRemain) {
         this.bombRemain = bombRemain;
@@ -110,7 +111,7 @@ public class Bomber extends Entity {
     }
 
     public void die() {
-        int cout = 10;
+
         if (timeAfterDie == 20) cout--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
         if (timeAfterDie <= 45) {
             sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
@@ -127,7 +128,7 @@ public class Bomber extends Entity {
                 if (xB * Sprite.SCALED_SIZE == bomb.getX() && yB * Sprite.SCALED_SIZE == bomb.getY()) return;
             }
             bombs.add(new Bomb(xB, yB, Sprite.bomb, radius)); // tao bom va add vao list bom
-            isAllowedGoToBom = true; // xuyen qua bom tra ve true
+            //isAllowedGoToBom = true; // xuyen qua bom tra ve true
             bombRemain--; //tru di luong bom du tru sua khi da dat
         }
     }

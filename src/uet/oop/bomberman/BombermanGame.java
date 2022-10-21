@@ -1,5 +1,7 @@
 package uet.oop.bomberman;
 
+import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.AnchorPane;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -35,7 +37,14 @@ public class BombermanGame extends Application {
 
     public static List<Flame> flameList = new ArrayList<>();
     private static char curmap[][] = new char[HEIGHT][WIDTH];
+    public static int cout = 10; // số mạng
+    public static int countTime =0;
+    public static int time = 400; // cài time
+    public static int score =0; // point
 
+    public static JPANEL jpanel = new JPANEL(); // để gọi các phương thức lớp JPanel (liên quan đến set up hình ảnh)
+
+    public static AnchorPane ro = new AnchorPane(); // ro đại diện cho chức năng load các vùng cũng như ảnh text của toàn game
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -50,12 +59,15 @@ public class BombermanGame extends Application {
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
-
+        ro.getChildren().addAll(new Rectangle(2,3));
+        jpanel.setPanel();
+        root.getChildren().add(ro);
         // Tao scene
         Scene scene = new Scene(root);
 
         // Them scene vao stage
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         AnimationTimer timer = new AnimationTimer() {
@@ -146,6 +158,12 @@ public class BombermanGame extends Application {
     }
 
     public void update(Scene scene) {
+        if(countTime% 60==0){
+            time--;
+        }
+        jpanel.setTimes(time); // set time
+        jpanel.setPoint(score); // set điểm
+        jpanel.setLives(cout); // set mạng
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update(scene);
         }
@@ -169,6 +187,11 @@ public class BombermanGame extends Application {
             bomb.render(gc);
         }
         flameList.forEach(g -> g.render(gc));
+    }
+    public void coutTime() {
+        if ( countTime<400*60) {
+            countTime++;
+        }
     }
 
     public static char[][] getCurmap() {
