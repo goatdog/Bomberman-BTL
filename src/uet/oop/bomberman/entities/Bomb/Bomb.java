@@ -2,7 +2,9 @@ package uet.oop.bomberman.entities.Bomb;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomb extends Entity {
@@ -11,12 +13,26 @@ public class Bomb extends Entity {
     public Bomb(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);
         //setLayer(2);// chi so va cham cua bomb
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            Entity tmp = BombermanGame.entities.get(i);
+            if (tmp instanceof Enemy) {
+                Enemy e = (Enemy) tmp;
+                e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = 'B';
+            }
+        }
     }
 
     public Bomb(int xUnit, int yUnit, Sprite sprite, int radius) {
         super(xUnit, yUnit, sprite);
         //setLayer(2);// chi so va cham cua bomb
         this.radius = radius; // cai chi so ban kinh no
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            Entity tmp = BombermanGame.entities.get(i);
+            if (tmp instanceof Enemy) {
+                Enemy e = (Enemy) tmp;
+                e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = 'B';
+            }
+        }
     }
 
     @Override
@@ -39,5 +55,12 @@ public class Bomb extends Entity {
         e.setRadius(radius); // ban kinh no;
         e.render_explosion(); // chay cac chuc nang cua flame
         alive = false; // bom bien mat
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            Entity tmp = BombermanGame.entities.get(i);
+            if (tmp instanceof Enemy) {
+                Enemy en = (Enemy) tmp;
+                en.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = ' ';
+            }
+        }
     }
 }

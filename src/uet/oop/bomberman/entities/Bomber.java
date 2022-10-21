@@ -7,17 +7,23 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb.Bomb;
+import uet.oop.bomberman.entities.StillEntity.Brick;
+import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
+import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bomber extends Entity {
     private int bombRemain; // khai báo biến số bom dự trữ
+
+    private int bombDelay; // thời gian delay giữa các lần đặt bom
     private boolean placeBombCommand = false; // quản lý về việc đặt bom( trả về true or false)
 
-    private boolean isAllowedGoToBom = false;
+    private boolean isAllowedGoToBomb = false;
     // quản lý về viêệc đi xuyên qua bom trả về true or false
 
     private static final List<Bomb> bombs = new ArrayList<>(); // khai báo list quản lý bom
@@ -27,6 +33,8 @@ public class Bomber extends Entity {
     protected int dx = 0, dy = 0;
 
     private int timeAfterDie = 0; // thời gian sau khi chết
+
+    private static int lives = 3;
     public Bomber(int x, int y, Sprite sprite) {
         super( x, y, sprite);
         setBombRemain(1);
@@ -52,6 +60,8 @@ public class Bomber extends Entity {
     public void setBombRemain(int bombRemain) {
         this.bombRemain = bombRemain;
     }
+
+
 
     public void setKey(Scene scene) {
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -110,24 +120,40 @@ public class Bomber extends Entity {
     }
 
     public void die() {
-        int cout = 10;
-        if (timeAfterDie == 20) cout--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
+        if (timeAfterDie == 20) lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
         if (timeAfterDie <= 45) {
             sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
                     Sprite.player_dead3, timeAfterDie, 20);
             img = sprite.getFxImage();
+        } else {
+            for (int i = 0; i < BombermanGame.entities.size(); i++) {
+                Entity tmp = BombermanGame.entities.get(i);
+                if (tmp instanceof Enemy) {
+                    Enemy e = (Enemy) tmp;
+                    e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = ' ';
+                }
+            }
+            BombermanGame.entities.remove(this);
+            if (lives >= 0) BombermanGame.entities.add(new Bomber(1, 1, Sprite.player_right));
         }
     }
 
     public void placeBomb() {
-        if (bombRemain > 0) {
-            int xB = (int) Math.round((x + 4) / (double) Sprite.SCALED_SIZE); // toa do bom
-            int yB = (int) Math.round((y + 4) / (double) Sprite.SCALED_SIZE); // toa do bom
+        if (bombRemain > 0 && bombDelay == 0) {
+            int xB = (int) Math.round(x / (double) Sprite.SCALED_SIZE); // toa do bom
+            int yB = (int) Math.round(y / (double) Sprite.SCALED_SIZE); // toa do bom
             for (Bomb bomb : bombs) { // duyet list bombs
                 if (xB * Sprite.SCALED_SIZE == bomb.getX() && yB * Sprite.SCALED_SIZE == bomb.getY()) return;
             }
+            for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+                if (BombermanGame.stillObjects.get(i) instanceof Portal) {
+                    Portal p = (Portal) BombermanGame.stillObjects.get(i);
+                    if (p.x / Sprite.SCALED_SIZE == xB && p.y / Sprite.SCALED_SIZE == yB) return;
+                }
+            }
             bombs.add(new Bomb(xB, yB, Sprite.bomb, radius)); // tao bom va add vao list bom
-            isAllowedGoToBom = true; // xuyen qua bom tra ve true
+            bombDelay = 10;
+            isAllowedGoToBomb = true; // xuyen qua bom tra ve true
             bombRemain--; //tru di luong bom du tru sua khi da dat
         }
     }
@@ -177,8 +203,22 @@ public class Bomber extends Entity {
             }
         }
         for (int i = 0; i < BombermanGame.entities.size(); i++) {
-            optimize(BombermanGame.entities.get(i));
-            if (this.checkCollision(BombermanGame.entities.get(i))) {
+            if (BombermanGame.entities.get(i) instanceof Brick || BombermanGame.entities.get(i) instanceof Enemy) {
+                optimize(BombermanGame.entities.get(i));
+                if (this.checkCollision(BombermanGame.entities.get(i))) {
+                    x -= dx;
+                    y -= dy;
+                    if (BombermanGame.entities.get(i) instanceof Enemy) {
+                        setAlive(false);
+                    }
+                }
+            }
+        }
+        //System.out.println(x + " " + y);
+        for (int i = 0; i < bombs.size(); i++) {
+            if (!this.checkCollision(bombs.get(i)) && isAllowedGoToBomb == true) {
+                isAllowedGoToBomb = false;
+            } else if (this.checkCollision(bombs.get(i)) && isAllowedGoToBomb == false) {
                 x -= dx;
                 y -= dy;
             }
@@ -218,13 +258,17 @@ public class Bomber extends Entity {
     public void update(Scene scene) {
         setKey(scene);
         count();
-        move();
         if (!isAlive()) {
             timeAfterDie++;
             die();
+            dx = dy = 0;
+            //BombermanGame.entities.remove(this);
+            //BombermanGame.entities.add(new Bomber(1, 1, Sprite.player_right));
         }
+        move();
         if (placeBombCommand) {
             placeBomb();
+            if (bombDelay > 0) bombDelay--;
         }
         for (int i = 0; i < bombs.size(); i++) { // duyệt cái list của bomb
             Bomb bomb = bombs.get(i);

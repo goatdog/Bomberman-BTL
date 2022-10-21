@@ -131,7 +131,7 @@ public class BombermanGame extends Application {
                             break;
                         case 'f':
                             stillObjects.add(new Grass(i, j, Sprite.grass));
-                            entities.add(new Flame_Item(i, j, Sprite.powerup_flames));
+                            stillObjects.add(new Flame_Item(i, j, Sprite.powerup_flames));
                             entities.add(new Brick(i, j, Sprite.brick));
                             break;
                         default:
@@ -190,7 +190,7 @@ public class BombermanGame extends Application {
                 return tmp.getX();
             }
         }
-        return 1;
+        return 32;
     }
 
     public static int getBomberY() {
@@ -200,6 +200,6 @@ public class BombermanGame extends Application {
                 return tmp.getY();
             }
         }
-        return 1;
+        return 32;
     }
 }

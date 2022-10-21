@@ -45,47 +45,51 @@ public abstract class Entity {
     public abstract void update(Scene scene);
 
     public boolean checkCollision(Entity other) {
-        int this_top = y;
-        int this_bottom = y + sprite.get_realHeight() * 2;
-        int this_left = x;
-        int this_right = x + sprite.get_realWidth() * 2;
-        int other_top = other.y;
-        int other_bottom = other.y + other.sprite.get_realHeight() * 2;
-        int other_left = other.x;
-        int other_right = other.x + other.sprite.get_realWidth() * 2;
-        if (this_left < other_right && this_left > other_left) {
-            if (this_bottom < other_bottom && this_bottom > other_top) {
-                return true;
-            }
-            if (this_top < other_bottom && this_top > other_top) {
-                return true;
-            }
-        }
-        if (this_right < other_right && this_right > other_left) {
-            if (this_bottom < other_bottom && this_bottom > other_top) {
-                return true;
-            }
-            if (this_top < other_bottom && this_top > other_top) {
-                return true;
-            }
-        }
-        if (this_left == other_left && this_right == other_right) {
-            if (this_bottom < other_bottom && this_bottom > other_top) {
-                return true;
-            }
-            if (this_top < other_bottom && this_top > other_top) {
-                return true;
-            }
-        }
-        if (this_top == other_top && this_bottom == other_bottom) {
-            if (this_left < other_right && this_left > other_left) {
-                return true;
-            }
-            if (this_right < other_right && this_right > other_left) {
-                return true;
-            }
-        }
-        return false;
+//        int this_top = y;
+//        int this_bottom = y + sprite.get_realHeight() * 2;
+//        int this_left = x;
+//        int this_right = x + sprite.get_realWidth() * 2;
+//        int other_top = other.y;
+//        int other_bottom = other.y + other.sprite.get_realHeight() * 2;
+//        int other_left = other.x;
+//        int other_right = other.x + other.sprite.get_realWidth() * 2;
+//        if (this_left < other_right && this_left > other_left) {
+//            if (this_bottom < other_bottom && this_bottom > other_top) {
+//                return true;
+//            }
+//            if (this_top < other_bottom && this_top > other_top) {
+//                return true;
+//            }
+//        }
+//        if (this_right < other_right && this_right > other_left) {
+//            if (this_bottom < other_bottom && this_bottom > other_top) {
+//                return true;
+//            }
+//            if (this_top < other_bottom && this_top > other_top) {
+//                return true;
+//            }
+//        }
+//        if (this_left == other_left && this_right == other_right) {
+//            if (this_bottom < other_bottom && this_bottom > other_top) {
+//                return true;
+//            }
+//            if (this_top < other_bottom && this_top > other_top) {
+//                return true;
+//            }
+//        }
+//        if (this_top == other_top && this_bottom == other_bottom) {
+//            if (this_left < other_right && this_left > other_left) {
+//                return true;
+//            }
+//            if (this_right < other_right && this_right > other_left) {
+//                return true;
+//            }
+//        }
+//        return false;
+        Rectangle r1 = this.getBounds();
+        Rectangle r2 = other.getBounds();
+        if (r1.intersects(r2)) return true;
+        else return false;
     }
 
     public void count() {
@@ -104,7 +108,7 @@ public abstract class Entity {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, Sprite.SCALED_SIZE, Sprite.SCALED_SIZE);
+        return new Rectangle(x, y, sprite.get_realWidth() * 2, sprite.get_realHeight() * 2);
     }
 
     public boolean isAlive() {
