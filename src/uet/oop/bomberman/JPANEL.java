@@ -28,7 +28,7 @@ public class JPANEL extends AnchorPane{
         labelPoint.setFont(Font.font(18));
         labelPoint.setTextFill(BLACK);
         // chỉnh tọa độ xếp thông tin về lives
-        labelLives = new Label("LIVES : "+ BombermanGame.cout);
+        labelLives = new Label("LIVES : "+ BombermanGame.lives);
         labelLives.setLayoutX(800);
         labelLives.setLayoutY(1);
         labelLives.setFont(Font.font(18));

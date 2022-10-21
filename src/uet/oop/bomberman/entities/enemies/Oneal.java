@@ -15,7 +15,7 @@ import java.util.List;
 public class Oneal extends Enemy {
     private static final int OnealSpeed = 2;
     private boolean onealCollision = false;
-    private int dis[][] = new int[BombermanGame.HEIGHT][BombermanGame.WIDTH];
+    private int dis[][] = new int[BombermanGame.HEIGHT + 1][BombermanGame.WIDTH + 1];
     private int vx[] = {1, -1, 0, 0};
     private int vy[] = {0, 0, 1, -1};
     public Oneal(int x, int y, Sprite sprite) {
@@ -26,7 +26,7 @@ public class Oneal extends Enemy {
     public void dfs(char board[][], int i, int j) {
         if (i == getBoardY() && j == getBoardX()) return;
         for (int k = 0; k < 4; k++) {
-            if (i + vy[k] < 0 || j + vx[k] < 0 || i + vy[k] >= BombermanGame.HEIGHT || j + vx[k] >= BombermanGame.WIDTH) continue;
+            if (i + vy[k] < 1 || j + vx[k] < 0 || i + vy[k] > BombermanGame.HEIGHT || j + vx[k] >= BombermanGame.WIDTH) continue;
             if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#' && board[i + vy[k]][j + vx[k]] != 'B') {
                 if (dis[i + vy[k]][j + vx[k]] > dis[i][j] + 1) {
                     dis[i + vy[k]][j + vx[k]] = dis[i][j] + 1;

@@ -54,7 +54,7 @@ public abstract class Enemy extends Entity {
             if (board[y / scale][x / scale] == ' ') {
                 board[y / scale][x / scale] = symbol;
                 for (int k = 0; k < 8; k++) {
-                    if (y / scale + spvy[k] >= 0 && y / scale + spvy[k] < BombermanGame.HEIGHT && x / scale + spvx[k] >= 0 && x / scale + spvx[k] < BombermanGame.WIDTH) {
+                    if (y / scale + spvy[k] >= 1 && y / scale + spvy[k] <= BombermanGame.HEIGHT && x / scale + spvx[k] >= 0 && x / scale + spvx[k] < BombermanGame.WIDTH) {
                         if (board[y / scale + spvy[k]][x / scale + spvx[k]] == symbol) {
                             board[y / scale + spvy[k]][x / scale + spvx[k]] = ' ';
                         }
@@ -64,10 +64,11 @@ public abstract class Enemy extends Entity {
         }
         int BomberX = BombermanGame.getBomberX();
         int BomberY = BombermanGame.getBomberY();
+        System.out.println("Bomber: " + BomberY + " " + BomberX);
         if (board[BomberY / scale][BomberX / scale] == ' ') {
             board[BomberY / scale][BomberX / scale] = 'p';
             for (int k = 0; k < 8; k++) {
-                if (BomberY / scale + spvy[k] >= 0 && BomberY / scale + spvy[k] < BombermanGame.HEIGHT && BomberX / scale + spvx[k] >= 0 && BomberX / scale + spvx[k] < BombermanGame.WIDTH) {
+                if (BomberY / scale + spvy[k] >= 1 && BomberY / scale + spvy[k] <= BombermanGame.HEIGHT && BomberX / scale + spvx[k] >= 0 && BomberX / scale + spvx[k] < BombermanGame.WIDTH) {
                     if (board[BomberY / scale + spvy[k]][BomberX / scale + spvx[k]] == 'p') {
                         board[BomberY / scale + spvy[k]][BomberX / scale + spvx[k]] = ' ';
                     }
