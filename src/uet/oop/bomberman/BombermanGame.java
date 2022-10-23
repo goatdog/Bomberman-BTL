@@ -159,12 +159,12 @@ public class BombermanGame extends Application {
                             break;
                         case 'b':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
-                            stillObjects.add(new Bomb_Item(i, j + 1, Sprite.powerup_flames));
+                            stillObjects.add(new Bomb_Item(i, j + 1, Sprite.powerup_bombs));
                             stillObjects.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         case 's':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
-                            stillObjects.add(new Speed_Item(i, j + 1, Sprite.powerup_flames));
+                            stillObjects.add(new Speed_Item(i, j + 1, Sprite.powerup_speed));
                             stillObjects.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         default:
