@@ -268,7 +268,7 @@ public class Flame extends Entity {
         for (int i = 0; i < bombs.size(); i++) {
             Rectangle r2 = bombs.get(i).getBounds();
             if (r1.intersects(r2)) {
-                bombs.get(i).setTimeCounter(110);
+                bombs.get(i).setTimeCounter(119);
             }
         }
     }
