@@ -26,26 +26,12 @@ public class Balloom extends Enemy {
         x += dx;
         y += dy;
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-            if (BombermanGame.stillObjects.get(i) instanceof Wall) {
+            if (BombermanGame.stillObjects.get(i) instanceof Brick || BombermanGame.stillObjects.get(i) instanceof Wall) {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
                     x -= dx;
                     y -= dy;
                 }
             }
-        }
-        for (int i = 0; i < BombermanGame.entities.size(); i++) {
-            if (BombermanGame.entities.get(i) instanceof Brick
-                    && this.checkCollision(BombermanGame.entities.get(i))) {
-                x -= dx;
-                y -= dy;
-            }
-            /*if (BombermanGame.entities.get(i) instanceof Enemy
-                    && this.checkCollision(BombermanGame.entities.get(i))) {
-                while (x % 32 != 0 || y % 32 != 0) {
-                    x -= dx;
-                    y -= dy;
-                }
-            }*/
         }
         List<Bomb> bombs = Bomber.getBombs();
         for (int i = 0; i < bombs.size(); i++) {

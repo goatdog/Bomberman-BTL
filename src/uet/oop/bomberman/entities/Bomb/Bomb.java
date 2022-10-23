@@ -9,6 +9,15 @@ import uet.oop.bomberman.graphics.Sprite;
 
 public class Bomb extends Entity {
     private int timeCounter = 0;
+
+    public void setTimeCounter(int timeCounter) {
+        this.timeCounter = timeCounter;
+    }
+
+    public int getTimeCounter() {
+        return timeCounter;
+    }
+
     int radius;
     public Bomb(int xUnit, int yUnit, Sprite sprite) {
         super(xUnit, yUnit, sprite);

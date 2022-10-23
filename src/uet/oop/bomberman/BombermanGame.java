@@ -12,7 +12,9 @@ import javafx.stage.Stage;
 import uet.oop.bomberman.entities.*;
 import uet.oop.bomberman.entities.Bomb.Bomb;
 import uet.oop.bomberman.entities.Bomb.Flame;
+import uet.oop.bomberman.entities.Item.Bomb_Item;
 import uet.oop.bomberman.entities.Item.Flame_Item;
+import uet.oop.bomberman.entities.Item.Speed_Item;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Grass;
 import uet.oop.bomberman.entities.StillEntity.Portal;
@@ -23,6 +25,7 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class BombermanGame extends Application {
@@ -122,7 +125,7 @@ public class BombermanGame extends Application {
                             break;
                         case '*':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
-                            entities.add(new Brick(i, j + 1, Sprite.brick));
+                            stillObjects.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         case 'p':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
@@ -131,7 +134,7 @@ public class BombermanGame extends Application {
                         case 'x':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             stillObjects.add(new Portal(i, j + 1, Sprite.portal));
-                            entities.add(new Brick(i, j + 1, Sprite.brick));
+                            stillObjects.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         case '1':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
@@ -144,7 +147,17 @@ public class BombermanGame extends Application {
                         case 'f':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             stillObjects.add(new Flame_Item(i, j + 1, Sprite.powerup_flames));
-                            entities.add(new Brick(i, j + 1, Sprite.brick));
+                            stillObjects.add(new Brick(i, j + 1, Sprite.brick));
+                            break;
+                        case 'b':
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            stillObjects.add(new Bomb_Item(i, j + 1, Sprite.powerup_flames));
+                            stillObjects.add(new Brick(i, j + 1, Sprite.brick));
+                            break;
+                        case 's':
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            stillObjects.add(new Speed_Item(i, j + 1, Sprite.powerup_flames));
+                            stillObjects.add(new Brick(i, j + 1, Sprite.brick));
                             break;
                         default:
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
@@ -166,6 +179,11 @@ public class BombermanGame extends Application {
         jpanel.setTimes(time); // set time
         jpanel.setPoint(score); // set điểm
         jpanel.setLives(lives); // set mạng
+        try {
+            stillObjects.forEach(g -> g.update(scene));
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Get item");
+        }
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update(scene);
         }

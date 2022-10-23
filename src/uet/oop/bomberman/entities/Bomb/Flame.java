@@ -4,12 +4,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Flame extends Entity {
     private int left;
@@ -20,6 +23,10 @@ public class Flame extends Entity {
     private int size = Sprite.SCALED_SIZE;
     private int direction; // lựa chọn
     private int time = 0; // thoi gian flame ton tai
+
+    private int centerX = 0;
+
+    private int centerY = 0;
 
     public Flame(int x, int y, Sprite _sprite, int direction) {
         super(x, y, _sprite);
@@ -57,11 +64,14 @@ public class Flame extends Entity {
         Top();
         Down();
         create_explosion();
+        centerX = x;
+        centerY = y;
     }
     // phương thức tạo vụ nổ (về mặt Hình Ảnh
 
     private void create_explosion() {
         BombermanGame.flameList.add(new Flame(x / Sprite.SCALED_SIZE, y / Sprite.SCALED_SIZE, Sprite.bomb_exploded, 0));
+        System.out.println(right);
         for (int i = 0; i < right; i++) {
             Flame e = new Flame(x + size * (i + 1), y);
             e.x = e.x / Sprite.SCALED_SIZE;
@@ -78,6 +88,7 @@ public class Flame extends Entity {
             BombermanGame.flameList.add(e); // list quản lý flame sẽ thêm "phần tử" flame mới này vào
         }
 
+        System.out.println(left);
         for (int i = 0; i < left; i++) {
             Flame e = new Flame(x - size * (i + 1), y);
             e.x = e.x / Sprite.SCALED_SIZE;
@@ -94,6 +105,7 @@ public class Flame extends Entity {
             BombermanGame.flameList.add(e); // list quản lý flame sẽ thêm "phần tử" flame mới này vào
         }
 
+        System.out.println(top);
         for (int i = 0; i < top; i++) {
             Flame e = new Flame(x, y - size * (i + 1));
             e.x = e.x / Sprite.SCALED_SIZE;
@@ -110,6 +122,7 @@ public class Flame extends Entity {
             BombermanGame.flameList.add(e); // list quản lý flame sẽ thêm "phần tử" flame mới này vào
         }
 
+        System.out.println(down);
         for (int i = 0; i < down; i++) {
             Flame e = new Flame(x, y + size * (i + 1));
             e.x = e.x / Sprite.SCALED_SIZE;
@@ -135,6 +148,7 @@ public class Flame extends Entity {
                 right = i; // neu flame va cham tuong thi flame bi chan
                 return;
             } else if(collisionType(ex_right) instanceof Brick) {
+                System.out.println("brick");
                 right = i + 1;// neu flame va cham brick thi khong bi chan
                 return;
             }
@@ -242,6 +256,19 @@ public class Flame extends Entity {
             Rectangle r2 = BombermanGame.entities.get(i).getBounds();
             if (r1.intersects(r2)) {
                 BombermanGame.entities.get(i).setAlive(false);
+            }
+        }
+        for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
+            Rectangle r2 = BombermanGame.stillObjects.get(i).getBounds();
+            if (BombermanGame.stillObjects.get(i) instanceof Brick && r1.intersects(r2)) {
+                BombermanGame.stillObjects.get(i).setAlive(false);
+            }
+        }
+        List<Bomb> bombs = Bomber.getBombs();
+        for (int i = 0; i < bombs.size(); i++) {
+            Rectangle r2 = bombs.get(i).getBounds();
+            if (r1.intersects(r2)) {
+                bombs.get(i).setTimeCounter(110);
             }
         }
     }

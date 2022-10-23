@@ -28,7 +28,7 @@ public class Bomber extends Entity {
     private int radius; // biến bán kính nổ
     private boolean is_Move = false;
     public static int lives = 3; // số mạng
-    private static final int BomberSpeed = 2;
+    private int BomberSpeed = 2;
     protected int dx = 0, dy = 0;
 
     private int timeAfterDie = 0; // thời gian sau khi chết
@@ -56,6 +56,14 @@ public class Bomber extends Entity {
 
     public void setBombRemain(int bombRemain) {
         this.bombRemain = bombRemain;
+    }
+
+    public int getBomberSpeed() {
+        return BomberSpeed;
+    }
+
+    public void setBomberSpeed(int bomberSpeed) {
+        BomberSpeed = bomberSpeed;
     }
 
     public void setKey(Scene scene) {
@@ -190,7 +198,7 @@ public class Bomber extends Entity {
             is_Move = false;
         }
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-            if (BombermanGame.stillObjects.get(i) instanceof Wall) {
+            if (BombermanGame.stillObjects.get(i) instanceof Brick || BombermanGame.stillObjects.get(i) instanceof Wall) {
                 optimize(BombermanGame.stillObjects.get(i));
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
                     x -= dx;
@@ -199,7 +207,7 @@ public class Bomber extends Entity {
             }
         }
         for (int i = 0; i < BombermanGame.entities.size(); i++) {
-            if (BombermanGame.entities.get(i) instanceof Brick || BombermanGame.entities.get(i) instanceof Enemy) {
+            if (BombermanGame.entities.get(i) instanceof Enemy) {
                 optimize(BombermanGame.entities.get(i));
                 if (this.checkCollision(BombermanGame.entities.get(i))) {
                     x -= dx;
@@ -210,9 +218,10 @@ public class Bomber extends Entity {
                 }
             }
         }
+        int cnt = 0;
         for (int i = 0; i < bombs.size(); i++) {
-            if (!this.checkCollision(bombs.get(i)) && isAllowedGoToBomb == true) {
-                isAllowedGoToBomb = false;
+            if (!this.checkCollision(bombs.get(i))) {
+                cnt++;
             } else if (this.checkCollision(bombs.get(i)) && isAllowedGoToBomb == false) {
                 optimize(bombs.get(i));
                 if (this.checkCollision(bombs.get(i))) {
@@ -221,6 +230,7 @@ public class Bomber extends Entity {
                 }
             }
         }
+        if (cnt == bombs.size() && isAllowedGoToBomb == true) isAllowedGoToBomb = false;
     }
 
     public void setCurrentSprite() {

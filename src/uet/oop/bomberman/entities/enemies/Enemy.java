@@ -64,7 +64,6 @@ public abstract class Enemy extends Entity {
         }
         int BomberX = BombermanGame.getBomberX();
         int BomberY = BombermanGame.getBomberY();
-        System.out.println("Bomber: " + BomberY + " " + BomberX);
         if (board[BomberY / scale][BomberX / scale] == ' ') {
             board[BomberY / scale][BomberX / scale] = 'p';
             for (int k = 0; k < 8; k++) {

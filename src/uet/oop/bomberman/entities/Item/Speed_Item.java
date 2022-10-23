@@ -13,9 +13,9 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
 
-public class Flame_Item extends Item {
+public class Speed_Item extends Item {
 
-    public Flame_Item(int x, int y, Sprite sprite) {
+    public Speed_Item(int x, int y, Sprite sprite) {
         super( x, y, sprite);
     }
 
@@ -32,9 +32,10 @@ public class Flame_Item extends Item {
                 }
             }
             if (r1.intersects(r2)) {
-                tmp.setRadius(tmp.getRadius() + 1);
+                tmp.setBomberSpeed(tmp.getBomberSpeed() + 1);
                 BombermanGame.stillObjects.remove(this);
             }
         }
     }
 }
+
