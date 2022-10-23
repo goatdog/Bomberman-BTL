@@ -16,6 +16,9 @@ import uet.oop.bomberman.graphics.Sprite;
 import java.util.ArrayList;
 import java.util.List;
 
+import static uet.oop.bomberman.BombermanGame.enemies;
+import static uet.oop.bomberman.BombermanGame.entities;
+
 public class Bomber extends Entity {
     private int bombRemain; // khai báo biến số bom dự trữ
     private int bombDelay; // thời gian delay giữa các lần đặt bom
@@ -32,6 +35,8 @@ public class Bomber extends Entity {
     protected int dx = 0, dy = 0;
 
     private int timeAfterDie = 0; // thời gian sau khi chết
+    private int level = 1;
+
     public Bomber(int x, int y, Sprite sprite) {
         super( x, y, sprite);
         setBombRemain(1);
@@ -204,6 +209,8 @@ public class Bomber extends Entity {
                     x -= dx;
                     y -= dy;
                 }
+            } else if(BombermanGame.stillObjects.get(i) instanceof Portal) {
+                if(entities.size() == 0) level++;
             }
         }
         for (int i = 0; i < BombermanGame.entities.size(); i++) {

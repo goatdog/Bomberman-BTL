@@ -35,6 +35,7 @@ public class BombermanGame extends Application {
 
     private GraphicsContext gc;
     private Canvas canvas;
+    public static final List<Enemy> enemies = new ArrayList<>();
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
 
@@ -44,10 +45,12 @@ public class BombermanGame extends Application {
     public static int countTime =0;
     public static int time = 400; // cài time
     public static int score =0; // point
-
+    public static boolean check = false;
+    public static int level = 1;
     public static JPANEL jpanel = new JPANEL(); // để gọi các phương thức lớp JPanel (liên quan đến set up hình ảnh)
 
     public static AnchorPane ro = new AnchorPane(); // ro đại diện cho chức năng load các vùng cũng như ảnh text của toàn game
+
 
     public static void main(String[] args) {
         Application.launch(BombermanGame.class);
@@ -76,12 +79,17 @@ public class BombermanGame extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
+                if (check == true) {
+                    check = false;
+                }
+
+                if (lives == 0 || time < 0) this.stop();
                 render();
                 update(scene);
             }
         };
         timer.start();
-        createMap();
+       createMap();
     }
 
     public void createMap() {
@@ -100,7 +108,7 @@ public class BombermanGame extends Application {
         List<String> map = new ArrayList<String>();
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            URL url = loader.getResource("./levels/Level1.txt");
+            URL url = loader.getResource("./levels/Level" + level +".txt");
             String path = url.getPath();
             File input = new File(path);
             BufferedReader scanner = new BufferedReader(new FileReader(input));
@@ -173,7 +181,7 @@ public class BombermanGame extends Application {
     public void update(Scene scene) {
         coutTime();
         if(countTime % 60 == 0){
-            time--;
+            time -- ;
         }
         if (Bomber.lives >= 0) lives = Bomber.lives;
         jpanel.setTimes(time); // set time
@@ -202,6 +210,9 @@ public class BombermanGame extends Application {
         entities.forEach(g -> {
             g.render(gc);
         });
+
+            /*enemies.forEach(g ->{g.render(gc);
+            });*/
         List<Bomb> bombs = Bomber.getBombs();
         for (Bomb bomb : bombs) {
             bomb.render(gc);
