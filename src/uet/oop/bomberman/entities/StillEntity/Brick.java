@@ -39,7 +39,7 @@ public class Brick extends Entity {
                         e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = ' ';
                     }
                 }
-                BombermanGame.entities.remove(this); // xoa brick
+                BombermanGame.stillObjects.remove(this); // xoa brick
             }
         }
     }

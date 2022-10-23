@@ -27,7 +27,9 @@ public class Oneal extends Enemy {
         if (i == getBoardY() && j == getBoardX()) return;
         for (int k = 0; k < 4; k++) {
             if (i + vy[k] < 1 || j + vx[k] < 0 || i + vy[k] > BombermanGame.HEIGHT || j + vx[k] >= BombermanGame.WIDTH) continue;
-            if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#' && board[i + vy[k]][j + vx[k]] != 'B') {
+            if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#' && board[i + vy[k]][j + vx[k]] != 'B'
+            && board[i + vy[k]][j + vx[k]] != 'b' && board[i + vy[k]][j + vx[k]] != 'f' && board[i + vy[k]][j + vx[k]] != 's'
+             && board[i + vy[k]][j + vx[k]] != 'x') {
                 if (dis[i + vy[k]][j + vx[k]] > dis[i][j] + 1) {
                     dis[i + vy[k]][j + vx[k]] = dis[i][j] + 1;
                     dfs(board, i + vy[k], j + vx[k]);
@@ -54,7 +56,7 @@ public class Oneal extends Enemy {
             dis[a][b] = 0;
             if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
                 dfs(board, a, b);
-                System.out.println(a + " " + b);
+                System.out.println("Bomber: " + a + " " + b);
                 int rx = x, ry = y;
                 x = getBoardX();
                 y = getBoardY();
@@ -96,28 +98,13 @@ public class Oneal extends Enemy {
         y += dy;
         changepos('2');
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
-            if (BombermanGame.stillObjects.get(i) instanceof Wall) {
+            if (BombermanGame.stillObjects.get(i) instanceof Brick || BombermanGame.stillObjects.get(i) instanceof Wall) {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
                     x -= dx;
                     y -= dy;
                     changepos('2');
                 }
             }
-        }
-        for (int i = 0; i < BombermanGame.entities.size(); i++) {
-            if (BombermanGame.entities.get(i) instanceof Brick
-                    && this.checkCollision(BombermanGame.entities.get(i))) {
-                x -= dx;
-                y -= dy;
-                changepos('2');
-            }
-            /*if (BombermanGame.entities.get(i) instanceof Enemy
-                    && this.checkCollision(BombermanGame.entities.get(i))) {
-                while (x % 32 != 0 || y % 32 != 0) {
-                    x -= dx;
-                    y -= dy;
-                }
-            }*/
         }
         List<Bomb> bombs = Bomber.getBombs();
         for (int i = 0; i < bombs.size(); i++) {
