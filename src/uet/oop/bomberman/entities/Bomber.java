@@ -155,9 +155,10 @@ public class Bomber extends Entity {
                     if (p.x / Sprite.SCALED_SIZE == xB && p.y / Sprite.SCALED_SIZE == yB) return;
                 }
             }
-            bombs.add(new Bomb(xB, yB, Sprite.bomb, radius)); // tao bom va add vao list bom
-            bombDelay = 10;
-            isAllowedGoToBomb = true; // xuyen qua bom tra ve true
+            Bomb tmp = new Bomb(xB, yB, Sprite.bomb, radius);
+            bombs.add(tmp); // tao bom va add vao list bom
+            bombDelay = 3;
+            tmp.setAllowedGoToBomb(true); // xuyen qua bom tra ve true
             bombRemain--; //tru di luong bom du tru sua khi da dat
         }
     }
@@ -220,9 +221,7 @@ public class Bomber extends Entity {
         }
         int cnt = 0;
         for (int i = 0; i < bombs.size(); i++) {
-            if (!this.checkCollision(bombs.get(i))) {
-                cnt++;
-            } else if (this.checkCollision(bombs.get(i)) && isAllowedGoToBomb == false) {
+             if (this.checkCollision(bombs.get(i)) && bombs.get(i).isAllowedGoToBomb() == false) {
                 optimize(bombs.get(i));
                 if (this.checkCollision(bombs.get(i))) {
                     x -= dx;
@@ -230,7 +229,6 @@ public class Bomber extends Entity {
                 }
             }
         }
-        if (cnt == bombs.size() && isAllowedGoToBomb == true) isAllowedGoToBomb = false;
     }
 
     public void setCurrentSprite() {

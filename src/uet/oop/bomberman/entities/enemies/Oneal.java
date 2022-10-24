@@ -41,7 +41,7 @@ public class Oneal extends Enemy {
     @Override
     public void calculateMove(int speed) {
         int a = 0, b = 0;
-        for (int i = 0; i < BombermanGame.HEIGHT; i++) {
+        for (int i = 1; i <= BombermanGame.HEIGHT; i++) {
             for (int j = 0; j < BombermanGame.WIDTH; j++) {
                 dis[i][j] = 100000;
                 if (board[i][j] == 'p'){
@@ -108,7 +108,7 @@ public class Oneal extends Enemy {
         }
         List<Bomb> bombs = Bomber.getBombs();
         for (int i = 0; i < bombs.size(); i++) {
-            if (this.checkCollision(bombs.get(i))) {
+            if (this.checkCollision(bombs.get(i)) && bombs.get(i).isAllowedGoToBomb() == false) {
                 x -= dx;
                 y -= dy;
             }
@@ -138,7 +138,7 @@ public class Oneal extends Enemy {
         if (!isAlive()) {
             timeCounter++;
             dx = dy = 0;
-            die(Sprite.oneal_dead);
+            die(Sprite.oneal_dead, 200);
             System.out.println(timeCounter);
         }
         move();
