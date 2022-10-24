@@ -35,7 +35,7 @@ public class Balloom extends Enemy {
         }
         List<Bomb> bombs = Bomber.getBombs();
         for (int i = 0; i < bombs.size(); i++) {
-            if (this.checkCollision(bombs.get(i))) {
+            if (this.checkCollision(bombs.get(i)) && bombs.get(i).isAllowedGoToBomb() == false) {
                 x -= dx;
                 y -= dy;
             }
@@ -65,7 +65,7 @@ public class Balloom extends Enemy {
         if (!isAlive()) {
             timeCounter++;
             dx = dy = 0;
-            die(Sprite.balloom_dead);
+            die(Sprite.balloom_dead, 100);
             System.out.println(timeCounter);
         }
         move();

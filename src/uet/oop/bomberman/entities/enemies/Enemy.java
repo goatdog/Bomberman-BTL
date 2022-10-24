@@ -50,7 +50,7 @@ public abstract class Enemy extends Entity {
 
     public void changepos(char symbol) {
         int scale = Sprite.SCALED_SIZE;
-        if ((x) % scale == 0 && (y) % scale == 0) {
+        /*if ((x) % scale == 0 && (y) % scale == 0) {
             if (board[y / scale][x / scale] == ' ') {
                 board[y / scale][x / scale] = symbol;
                 for (int k = 0; k < 8; k++) {
@@ -61,7 +61,7 @@ public abstract class Enemy extends Entity {
                     }
                 }
             }
-        }
+        }*/
         int BomberX = BombermanGame.getBomberX();
         int BomberY = BombermanGame.getBomberY();
         if (board[BomberY / scale][BomberX / scale] == ' ') {
@@ -76,12 +76,13 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public void die(Sprite _sprite) {
+    public void die(Sprite _sprite, int score) {
         if (timeCounter <= 45) {
             sprite = _sprite;
         } else if (timeCounter <= 75) {
             sprite = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, timeCounter, 20);
         } else {
+            if (timeCounter == 76) BombermanGame.score += score;
             BombermanGame.entities.remove(this);
         }
     }

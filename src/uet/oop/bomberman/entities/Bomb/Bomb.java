@@ -10,6 +10,16 @@ import uet.oop.bomberman.graphics.Sprite;
 public class Bomb extends Entity {
     private int timeCounter = 0;
 
+    private boolean isAllowedGoToBomb;
+
+    public void setAllowedGoToBomb(boolean allowedGoToBomb) {
+        isAllowedGoToBomb = allowedGoToBomb;
+    }
+
+    public boolean isAllowedGoToBomb() {
+        return isAllowedGoToBomb;
+    }
+
     public void setTimeCounter(int timeCounter) {
         this.timeCounter = timeCounter;
     }
@@ -56,7 +66,13 @@ public class Bomb extends Entity {
             explodeUpgrade();
         }
         img = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, timeCounter, 60).getFxImage();// load ảnh bom truoc khi no
-
+        int tmp = 0;
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            if (!this.checkCollision(BombermanGame.entities.get(i))) {
+                tmp++;
+            }
+        }
+        if (tmp == BombermanGame.entities.size() && isAllowedGoToBomb == true) isAllowedGoToBomb = false;
 
     }
     public void explodeUpgrade() {
