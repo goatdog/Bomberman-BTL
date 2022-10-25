@@ -257,7 +257,6 @@ public class Flame extends Entity {
             Rectangle r2 = BombermanGame.entities.get(i).getBounds();
             if (r1.intersects(r2)) {
                 BombermanGame.entities.get(i).setAlive(false);
-                Sound.play("bomberman_die");
             }
         }
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {

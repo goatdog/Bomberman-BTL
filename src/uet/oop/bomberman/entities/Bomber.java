@@ -130,7 +130,11 @@ public class Bomber extends Entity {
 
     public void die() {
 
-        if (timeAfterDie == 20) lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
+        if (timeAfterDie == 20) {
+            lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
+            BombermanGame.score = 0;
+            Sound.play("bomberman_die");
+        }
         if (timeAfterDie <= 45) {
             sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
                     Sprite.player_dead3, timeAfterDie, 20);
@@ -163,7 +167,7 @@ public class Bomber extends Entity {
             }
             Bomb tmp = new Bomb(xB, yB, Sprite.bomb, radius);
             bombs.add(tmp); // tao bom va add vao list bom
-            bombDelay = 3;
+            bombDelay = 8;
             tmp.setAllowedGoToBomb(true); // xuyen qua bom tra ve true
             bombRemain--; //tru di luong bom du tru sua khi da dat
             Sound.play("set_bomb"); // âm đặt bom
@@ -213,9 +217,11 @@ public class Bomber extends Entity {
                     y -= dy;
                 }
             } else if(BombermanGame.stillObjects.get(i) instanceof Portal) {
-                if(entities.size() == 0) {
+                if(BombermanGame.entities.size() == 1 && BombermanGame.entities.get(0) instanceof Bomber
+                        && this.checkCollision(BombermanGame.stillObjects.get(i)) && !((Portal) BombermanGame.stillObjects.get(i)).hasBrick()) {
                     level++;
                     Sound.play("level_up");
+                    BombermanGame.entities.remove(0);
                     //check = true;
                 }
             }
@@ -227,7 +233,6 @@ public class Bomber extends Entity {
                     x -= dx;
                     y -= dy;
                     if (BombermanGame.entities.get(i) instanceof Enemy) {
-                        Sound.play("bomberman_die");
                         setAlive(false);
                     }
                 }
@@ -284,6 +289,12 @@ public class Bomber extends Entity {
             dx = dy = 0;
         }
         move();
+        for (int i = 0; i < BombermanGame.entities.size(); i++) {
+            if (BombermanGame.entities.get(i) instanceof Enemy) {
+                Enemy tmp = (Enemy) BombermanGame.entities.get(i);
+                tmp.changepos();
+            }
+        }
         if (placeBombCommand) {
             placeBomb();
             if (bombDelay > 0) bombDelay--;

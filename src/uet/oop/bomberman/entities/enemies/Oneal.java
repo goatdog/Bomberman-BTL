@@ -96,13 +96,11 @@ public class Oneal extends Enemy {
 //        }
         x += dx;
         y += dy;
-        changepos('2');
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
             if (BombermanGame.stillObjects.get(i) instanceof Brick || BombermanGame.stillObjects.get(i) instanceof Wall) {
                 if(this.checkCollision(BombermanGame.stillObjects.get(i))) {
                     x -= dx;
                     y -= dy;
-                    changepos('2');
                 }
             }
         }

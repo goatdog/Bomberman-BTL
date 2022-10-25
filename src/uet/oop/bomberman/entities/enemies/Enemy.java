@@ -2,6 +2,7 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.Scene;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
@@ -48,7 +49,7 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public void changepos(char symbol) {
+    public void changepos() {
         int scale = Sprite.SCALED_SIZE;
         /*if ((x) % scale == 0 && (y) % scale == 0) {
             if (board[y / scale][x / scale] == ' ') {
@@ -77,12 +78,15 @@ public abstract class Enemy extends Entity {
     }
 
     public void die(Sprite _sprite, int score) {
+        if (timeCounter == 5) Sound.play("eat_item");
         if (timeCounter <= 45) {
             sprite = _sprite;
         } else if (timeCounter <= 75) {
             sprite = Sprite.movingSprite(Sprite.mob_dead1, Sprite.mob_dead2, Sprite.mob_dead3, timeCounter, 20);
         } else {
-            if (timeCounter == 76) BombermanGame.score += score;
+            if (timeCounter == 76) {
+                BombermanGame.score += score;
+            }
             BombermanGame.entities.remove(this);
         }
     }
