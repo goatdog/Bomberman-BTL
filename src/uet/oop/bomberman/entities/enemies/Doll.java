@@ -2,7 +2,6 @@ package uet.oop.bomberman.entities.enemies;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomb.Bomb;
 import uet.oop.bomberman.entities.Bomber;
@@ -12,72 +11,66 @@ import uet.oop.bomberman.graphics.Sprite;
 
 import java.util.List;
 
-public class Oneal extends Enemy {
-    private static final int OnealSpeed = 2;
-    private boolean onealCollision = false;
-    private int vx[] = {1, -1, 0, 0};
-    private int vy[] = {0, 0, 1, -1};
-    public Oneal(int x, int y, Sprite sprite) {
-        super(x, y, sprite);
-        sprite = Sprite.oneal_right1;
+public class Doll extends Enemy {
+    private static final int DollSpeed = 2;
+    private boolean dollCollision = false;
+
+    public Doll(int x, int y, Sprite sprite) {
+        super( x, y, sprite);
+        sprite = Sprite.doll_left1;
     }
 
     @Override
     public void calculateMove(int speed) {
-        int a = 0, b = 0;
-        for (int i = 1; i <= BombermanGame.HEIGHT; i++) {
-            for (int j = 0; j < BombermanGame.WIDTH; j++) {
-                dis[i][j] = 100000;
-                if (board[i][j] == 'p'){
-                    a = i;
-                    b = j;
+        int BomberX = BombermanGame.getBomberX();
+        int BomberY = BombermanGame.getBomberY();
+        if (BomberX / Sprite.SCALED_SIZE != x / Sprite.SCALED_SIZE
+                && BomberY / Sprite.SCALED_SIZE != y / Sprite.SCALED_SIZE) {
+            super.calculateMove(speed);
+        } else {
+            int a = 0, b = 0;
+            for (int i = 1; i <= BombermanGame.HEIGHT; i++) {
+                for (int j = 0; j < BombermanGame.WIDTH; j++) {
+                    dis[i][j] = 100000;
+                    if (board[i][j] == 'p'){
+                        a = i;
+                        b = j;
+                    }
+                    //System.out.print(board[i][j]);
                 }
-                //System.out.print(board[i][j]);
+                //System.out.print("\n");
             }
-            //System.out.print("\n");
-        }
-        if (Math.abs(a - y / Sprite.SCALED_SIZE) <= BombermanGame.HEIGHT / 2 && Math.abs(b - x / Sprite.SCALED_SIZE) <= BombermanGame.WIDTH / 3) {
             dis[a][b] = 0;
             if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
                 dfs(board, a, b);
-                System.out.println("Bomber: " + a + " " + b);
                 int rx = x, ry = y;
                 x = getBoardX();
                 y = getBoardY();
                 if (x >= 0 && x + 1 < BombermanGame.WIDTH && dis[y][x] - dis[y][x + 1] == 1) {
-                    dx = speed;
+                    dx = speed + 1;
                     dy = 0;
                 } else if (x - 1 >= 0 && x < BombermanGame.WIDTH && dis[y][x] - dis[y][x - 1] == 1) {
-                    dx = -speed;
+                    dx = -speed - 1;
                     dy = 0;
                 } else if (y >= 0 && y + 1 < BombermanGame.HEIGHT && dis[y][x] - dis[y + 1][x] == 1) {
-                    dy = speed;
+                    dy = speed + 1;
                     dx = 0;
                 } else if (y - 1 >= 0 && y < BombermanGame.HEIGHT && dis[y][x] - dis[y - 1][x] == 1) {
-                    dy = -speed;
+                    dy = -speed - 1;
                     dx = 0;
                 } else {
                     x = rx;
                     y = ry;
-                    super.calculateMove(speed / 2);
+                    super.calculateMove(speed);
                 }
                 x = rx;
                 y = ry;
             }
-        } else {
-            int scale = Sprite.SCALED_SIZE;
-            super.calculateMove(speed / 2);
-            return;
         }
     }
 
     public void move() {
-        this.calculateMove(OnealSpeed);
-//        if (!onealCollision) this.calculateMove(OnealSpeed);
-//        else {
-//            super.calculateMove(OnealSpeed);
-//            onealCollision = false;
-//        }
+        calculateMove(DollSpeed);
         x += dx;
         y += dy;
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {
@@ -99,12 +92,12 @@ public class Oneal extends Enemy {
 
     public void setCurrentSprite() {
         if (dx > 0 || dy > 0) {
-            this.sprite = Sprite.movingSprite(Sprite.oneal_right1,
-                    Sprite.oneal_right2, Sprite.oneal_right3, selfcount, 20);
+            this.sprite = Sprite.movingSprite(Sprite.doll_right1,
+                    Sprite.doll_right2, Sprite.doll_right3, selfcount, 20);
         }
         if (dx < 0 || dy < 0) {
-            this.sprite = Sprite.movingSprite(Sprite.oneal_left1,
-                    Sprite.oneal_left2, Sprite.oneal_left3, selfcount, 20);
+            this.sprite = Sprite.movingSprite(Sprite.doll_left1,
+                    Sprite.doll_left2, Sprite.doll_left3, selfcount, 20);
         }
     }
 
@@ -120,10 +113,9 @@ public class Oneal extends Enemy {
         if (!isAlive()) {
             timeCounter++;
             dx = dy = 0;
-            die(Sprite.oneal_dead, 200);
+            die(Sprite.doll_dead, 100);
             System.out.println(timeCounter);
         }
         move();
     }
 }
-

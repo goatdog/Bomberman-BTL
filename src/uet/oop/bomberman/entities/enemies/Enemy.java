@@ -10,6 +10,7 @@ import java.util.Random;
 
 public abstract class Enemy extends Entity {
     public char[][] board = BombermanGame.getCurmap();
+    protected int dis[][] = new int[BombermanGame.HEIGHT + 1][BombermanGame.WIDTH + 1];
     protected int direction;
     protected int dx = 0, dy = 0;
 
@@ -72,6 +73,21 @@ public abstract class Enemy extends Entity {
                     if (board[BomberY / scale + spvy[k]][BomberX / scale + spvx[k]] == 'p') {
                         board[BomberY / scale + spvy[k]][BomberX / scale + spvx[k]] = ' ';
                     }
+                }
+            }
+        }
+    }
+
+    public void dfs(char board[][], int i, int j) {
+        if (i == getBoardY() && j == getBoardX()) return;
+        for (int k = 0; k < 4; k++) {
+            if (i + vy[k] < 1 || j + vx[k] < 0 || i + vy[k] > BombermanGame.HEIGHT || j + vx[k] >= BombermanGame.WIDTH) continue;
+            if (board[i + vy[k]][j + vx[k]] != '*' && board[i + vy[k]][j + vx[k]] != '#' && board[i + vy[k]][j + vx[k]] != 'B'
+                    && board[i + vy[k]][j + vx[k]] != 'b' && board[i + vy[k]][j + vx[k]] != 'f' && board[i + vy[k]][j + vx[k]] != 's'
+                    && board[i + vy[k]][j + vx[k]] != 'x') {
+                if (dis[i + vy[k]][j + vx[k]] > dis[i][j] + 1) {
+                    dis[i + vy[k]][j + vx[k]] = dis[i][j] + 1;
+                    dfs(board, i + vy[k], j + vx[k]);
                 }
             }
         }

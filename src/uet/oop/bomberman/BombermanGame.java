@@ -91,7 +91,7 @@ public class BombermanGame extends Application {
             }
         };
         timer.start();
-       createMap();
+        createMap();
     }
 
     public void createMap() {
@@ -169,6 +169,12 @@ public class BombermanGame extends Application {
                             stillObjects.add(new Speed_Item(i, j + 1, Sprite.powerup_speed));
                             stillObjects.add(new Brick(i, j + 1, Sprite.brick));
                             break;
+                        case '3':
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            entities.add(new Doll(i, j + 1, Sprite.doll_right1));
+                        case '4':
+                            stillObjects.add(new Grass(i, j + 1, Sprite.grass));
+                            entities.add(new Kondoria(i, j + 1, Sprite.kondoria_right1));
                         default:
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             break;
