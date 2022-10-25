@@ -21,6 +21,7 @@ import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.entities.enemies.*;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.Sound.Sound;
 
 import java.io.*;
 import java.net.URL;
@@ -53,6 +54,7 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) {
+        Sound.play("Sound"); // nhạc nền
         Application.launch(BombermanGame.class);
     }
 

@@ -6,6 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.Sound.Sound;
 
 public class Bomb extends Entity {
     private int timeCounter = 0;
@@ -80,6 +81,7 @@ public class Bomb extends Entity {
         e.setRadius(radius); // ban kinh no;
         e.render_explosion(); // chay cac chuc nang cua flame
         alive = false; // bom bien mat
+        Sound.play("bom_explode");
         for (int i = 0; i < BombermanGame.entities.size(); i++) {
             Entity tmp = BombermanGame.entities.get(i);
             if (tmp instanceof Enemy) {

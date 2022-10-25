@@ -10,7 +10,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
-
+import uet.oop.bomberman.Sound.Sound;
 import java.awt.*;
 
 public class Flame_Item extends Item {
@@ -32,6 +32,7 @@ public class Flame_Item extends Item {
                 }
             }
             if (r1.intersects(r2)) {
+                Sound.play("eat_item");
                 tmp.setRadius(tmp.getRadius() + 1);
                 BombermanGame.stillObjects.remove(this);
             }

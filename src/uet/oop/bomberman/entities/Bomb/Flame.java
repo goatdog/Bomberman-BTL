@@ -9,6 +9,7 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.StillEntity.Brick;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.Sound.Sound;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -256,6 +257,7 @@ public class Flame extends Entity {
             Rectangle r2 = BombermanGame.entities.get(i).getBounds();
             if (r1.intersects(r2)) {
                 BombermanGame.entities.get(i).setAlive(false);
+                Sound.play("bomberman_die");
             }
         }
         for (int i = 0; i < BombermanGame.stillObjects.size(); i++) {

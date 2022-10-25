@@ -12,6 +12,7 @@ import uet.oop.bomberman.entities.StillEntity.Portal;
 import uet.oop.bomberman.entities.StillEntity.Wall;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.Sound.Sound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,6 +166,7 @@ public class Bomber extends Entity {
             bombDelay = 3;
             tmp.setAllowedGoToBomb(true); // xuyen qua bom tra ve true
             bombRemain--; //tru di luong bom du tru sua khi da dat
+            Sound.play("set_bomb"); // âm đặt bom
         }
     }
 
@@ -211,7 +213,11 @@ public class Bomber extends Entity {
                     y -= dy;
                 }
             } else if(BombermanGame.stillObjects.get(i) instanceof Portal) {
-                if(entities.size() == 0) level++;
+                if(entities.size() == 0) {
+                    level++;
+                    Sound.play("level_up");
+                    //check = true;
+                }
             }
         }
         for (int i = 0; i < BombermanGame.entities.size(); i++) {
@@ -221,6 +227,7 @@ public class Bomber extends Entity {
                     x -= dx;
                     y -= dy;
                     if (BombermanGame.entities.get(i) instanceof Enemy) {
+                        Sound.play("bomberman_die");
                         setAlive(false);
                     }
                 }
