@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Kondoria extends Enemy {
     private static final int KondoriaSpeed = 1;
+    private int lives = 2;
+    private boolean canLoseLives = true;
     private boolean balloomCollision = false;
 
     public Kondoria(int x, int y, Sprite sprite) {
@@ -63,11 +65,27 @@ public class Kondoria extends Enemy {
     public void update(Scene scene) {
         setCurrentSprite();
         if (!isAlive()) {
-            timeCounter++;
-            dx = dy = 0;
+            if (lives == 0) {
+                timeCounter++;
+                dx = dy = 0;
+            }
             die(Sprite.kondoria_dead, 100);
-            System.out.println(timeCounter);
+        } else {
+            canLoseLives = true;
         }
         move();
+    }
+
+    @Override
+    public void die(Sprite sprite, int score) {
+        super.die(sprite, score);
+        if (timeCounter == 0) {
+            if (canLoseLives == true) {
+                lives--;
+                canLoseLives = false;
+            }
+            this.setAlive(true);
+            System.out.println("lives: " + lives);
+        }
     }
 }
