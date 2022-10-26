@@ -16,6 +16,9 @@ public class Kondoria extends Enemy {
     private static final int KondoriaSpeed = 1;
     private int lives = 2;
     private boolean canLoseLives = true;
+
+    private int loseLivesDelay = 20;
+
     private boolean balloomCollision = false;
 
     public Kondoria(int x, int y, Sprite sprite) {
@@ -71,7 +74,9 @@ public class Kondoria extends Enemy {
             }
             die(Sprite.kondoria_dead, 100);
         } else {
-            canLoseLives = true;
+            if (loseLivesDelay > 0) {
+                loseLivesDelay--;
+            }
         }
         move();
     }
@@ -80,11 +85,11 @@ public class Kondoria extends Enemy {
     public void die(Sprite sprite, int score) {
         super.die(sprite, score);
         if (timeCounter == 0) {
-            if (canLoseLives == true) {
+            if (loseLivesDelay < 20 && lives > 0) {
                 lives--;
-                canLoseLives = false;
+                loseLivesDelay = 25;
             }
-            this.setAlive(true);
+            if (lives > 0) this.setAlive(true);
             System.out.println("lives: " + lives);
         }
     }

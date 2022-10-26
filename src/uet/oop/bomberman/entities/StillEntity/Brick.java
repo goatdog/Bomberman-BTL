@@ -16,13 +16,6 @@ public class Brick extends Entity {
 
     public Brick(int x, int y, Sprite sprite) {
         super( x, y, sprite);
-        for (int i = 0; i < BombermanGame.entities.size(); i++) {
-            Entity tmp = BombermanGame.entities.get(i);
-            if (tmp instanceof Enemy) {
-                Enemy e = (Enemy) tmp;
-                e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = '*';
-            }
-        }
     }
 
     @Override

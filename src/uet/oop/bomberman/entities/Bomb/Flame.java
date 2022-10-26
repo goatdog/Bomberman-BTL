@@ -52,10 +52,10 @@ public class Flame extends Entity {
         if (time < 20) {// thoi gian flame keo dai
             time++;
             setImg();
+        } else {
             handleCollisionFlame();
-        } else
             BombermanGame.flameList.remove(this);
-
+        }
     }
 
     public void render_explosion() { //chạy hết các phương thúc nổ -> hiển thị vụ nổ lên game
@@ -128,7 +128,7 @@ public class Flame extends Entity {
             Flame e = new Flame(x, y + size * (i + 1));
             e.x = e.x / Sprite.SCALED_SIZE;
             e.y = e.y / Sprite.SCALED_SIZE;
-            if (i == right - 1) {
+            if (i == down - 1) {
                 e.sprite = Sprite.explosion_vertical_down_last;
                 e.img = e.sprite.getFxImage();
                 e.direction = 6;
@@ -145,7 +145,9 @@ public class Flame extends Entity {
     private void Right() {
         for (int i = 0; i < radius; i++) {
             Rectangle ex_right = new Rectangle(x + size * (i + 1), y, size, size); // tạo bound(hit box) cho flame sử dụng để tham gia các va chạm
+            System.out.println(ex_right.x + " " + ex_right.y);
             if (collisionType(ex_right) instanceof Wall) {
+                System.out.println("wall");
                 right = i; // neu flame va cham tuong thi flame bi chan
                 return;
             } else if(collisionType(ex_right) instanceof Brick) {
@@ -186,6 +188,7 @@ public class Flame extends Entity {
     }
 
     private void Down() {
+        //System.out.println(radius);
         for (int i = 0; i < radius; i++) {
             Rectangle ex_down = new Rectangle(x , y + size * (i + 1), size, size); // tạo bound(hit box) cho flame sử dụng để tham gia các va chạm
             if (collisionType(ex_down) instanceof Wall) {
@@ -193,6 +196,7 @@ public class Flame extends Entity {
                 return;
             } else if(collisionType(ex_down) instanceof Brick) {
                 down = i + 1;
+                //System.out.println("Brick");
                 return;
             }
             down = i + 1;
@@ -203,7 +207,7 @@ public class Flame extends Entity {
     private static Object collisionType(Rectangle r) {
         for (Entity e : BombermanGame.stillObjects) { // duyệt tất cả các thực thể
             Rectangle r2 = e.getBounds();// tạo bao cho all thực thể
-            if (r.intersects(r2)) {// nếu thực thể va chạm flame thì trả về thực thể
+            if (r.intersects(r2) && (e instanceof Wall || e instanceof Brick)) {// nếu thực thể va chạm flame thì trả về thực thể
                 return e;
             }
         }

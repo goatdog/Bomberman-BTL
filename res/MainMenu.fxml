@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="448.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uet.oop.bomberman.menu.MainMenu">
+   <children>
+      <ImageView fitHeight="448.0" fitWidth="992.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Bomberman_background.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="384.0" layoutY="224.0" mnemonicParsing="false" onAction="#SwitchPlayScreen" prefHeight="30.0" prefWidth="200.0" text="Play">
+         <font>
+            <Font name="Monotype Corsiva" size="24.0" />
+         </font></Button>
+      <ImageView fitHeight="150.0" fitWidth="400.0" layoutX="278.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Bomberman_topic.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="384.0" layoutY="286.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Controls">
+         <font>
+            <Font name="Monotype Corsiva" size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="384.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Exit">
+         <font>
+            <Font name="Monotype Corsiva" size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,5 +1,7 @@
 package uet.oop.bomberman;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.AnchorPane;
 import javafx.animation.AnimationTimer;
@@ -34,8 +36,8 @@ public class BombermanGame extends Application {
     public static int WIDTH = 31;
     public static int HEIGHT = 13;
 
-    private GraphicsContext gc;
-    private Canvas canvas;
+    public GraphicsContext gc;
+    public Canvas canvas;
     public static final List<Enemy> enemies = new ArrayList<>();
     public static List<Entity> entities = new ArrayList<>();
     public static List<Entity> stillObjects = new ArrayList<>();
@@ -54,44 +56,53 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) {
-        Sound.play("Sound"); // nhạc nền
+        //Sound.play("Sound"); // nhạc nền
         Application.launch(BombermanGame.class);
     }
 
     @Override
-    public void start(Stage stage) throws IOException{
-        // Tao Canvas
-        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * (HEIGHT + 1));
-        gc = canvas.getGraphicsContext2D();
+//    public void start(Stage stage) throws IOException{
+//        // Tao Canvas
+//        canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * (HEIGHT + 1));
+//        gc = canvas.getGraphicsContext2D();
+//
+//        // Tao root container
+//        Group root = new Group();
+//        root.getChildren().add(canvas);
+//        ro.getChildren().addAll(new Rectangle(2,3));
+//        jpanel.setPanel();
+//        root.getChildren().add(ro);
+//        // Tao scene
+//        Scene scene = new Scene(root);
+//
+//        // Them scene vao stage
+//        stage.setScene(scene);
+//        stage.setResizable(false);
+//        stage.show();
+//
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long l) {
+//                if (check == true) {
+//                    check = false;
+//                }
+//
+//                if (lives == 0 || time < 0) this.stop();
+//                render();
+//                update(scene);
+//            }
+//        };
+//        timer.start();
+//        createMap();
+//    }
 
-        // Tao root container
-        Group root = new Group();
-        root.getChildren().add(canvas);
-        ro.getChildren().addAll(new Rectangle(2,3));
-        jpanel.setPanel();
-        root.getChildren().add(ro);
-        // Tao scene
+    public void start(Stage stage) throws IOException {
+        ClassLoader load = Thread.currentThread().getContextClassLoader();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainMenu.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
-
-        // Them scene vao stage
         stage.setScene(scene);
-        stage.setResizable(false);
         stage.show();
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                if (check == true) {
-                    check = false;
-                }
-
-                if (lives == 0 || time < 0) this.stop();
-                render();
-                update(scene);
-            }
-        };
-        timer.start();
-        createMap();
     }
 
     public void createMap() {
@@ -195,11 +206,6 @@ public class BombermanGame extends Application {
         jpanel.setTimes(time); // set time
         jpanel.setPoint(score); // set điểm
         jpanel.setLives(lives); // set mạng
-        try {
-            stillObjects.forEach(g -> g.update(scene));
-        } catch (ConcurrentModificationException e) {
-            System.out.println("Get item");
-        }
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update(scene);
         }
@@ -210,6 +216,11 @@ public class BombermanGame extends Application {
         for (int i = 0; i < flameList.size(); i++) {
             flameList.get(i).update(scene);
         }
+        try {
+            stillObjects.forEach(g -> g.update(scene));
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Get item");
+        }
     }
 
     public void render() {
@@ -218,9 +229,6 @@ public class BombermanGame extends Application {
         entities.forEach(g -> {
             g.render(gc);
         });
-
-            /*enemies.forEach(g ->{g.render(gc);
-            });*/
         List<Bomb> bombs = Bomber.getBombs();
         for (Bomb bomb : bombs) {
             bomb.render(gc);
