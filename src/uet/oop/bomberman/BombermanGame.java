@@ -56,7 +56,7 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) {
-        //Sound.play("Sound"); // nhạc nền
+        Sound.play("Sound"); // nhạc nền
         Application.launch(BombermanGame.class);
     }
 

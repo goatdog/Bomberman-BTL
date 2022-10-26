@@ -22,12 +22,12 @@
             <Image url="@Bomberman_topic.png" />
          </image>
       </ImageView>
-      <Button layoutX="384.0" layoutY="286.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Controls">
+      <Button layoutX="384.0" layoutY="286.0" mnemonicParsing="false" onAction="#SwitchControlScreen" prefHeight="30.0" prefWidth="200.0" text="Controls">
          <font>
             <Font name="Monotype Corsiva" size="24.0" />
          </font>
       </Button>
-      <Button layoutX="384.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="200.0" text="Exit">
+      <Button layoutX="384.0" layoutY="353.0" mnemonicParsing="false" onAction="#ExitGame" prefHeight="30.0" prefWidth="200.0" text="Exit">
          <font>
             <Font name="Monotype Corsiva" size="24.0" />
          </font>
