@@ -6,19 +6,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import uet.oop.bomberman.BombermanGame;
-import uet.oop.bomberman.entities.Bomb.Bomb;
-import uet.oop.bomberman.entities.StillEntity.Brick;
-import uet.oop.bomberman.entities.StillEntity.Portal;
-import uet.oop.bomberman.entities.StillEntity.Wall;
+import uet.oop.bomberman.entities.stillEntity.Brick;
+import uet.oop.bomberman.entities.stillEntity.Portal;
+import uet.oop.bomberman.entities.stillEntity.Wall;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.Sound.Sound;
+import uet.oop.bomberman.sound.Sound;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static uet.oop.bomberman.BombermanGame.enemies;
-import static uet.oop.bomberman.BombermanGame.entities;
 
 public class Bomber extends Entity {
     private int bombRemain; // khai báo biến số bom dự trữ

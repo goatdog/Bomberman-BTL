@@ -1,7 +1,6 @@
-package uet.oop.bomberman.entities.StillEntity;
+package uet.oop.bomberman.entities.stillEntity;
 
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 

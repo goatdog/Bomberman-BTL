@@ -1,4 +1,4 @@
-package uet.oop.bomberman.entities.Bomb;
+package uet.oop.bomberman.entities.bomb;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -6,7 +6,7 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.Sound.Sound;
+import uet.oop.bomberman.sound.Sound;
 
 public class Bomb extends Entity {
     private int timeCounter = 0;

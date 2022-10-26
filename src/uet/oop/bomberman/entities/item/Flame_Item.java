@@ -1,22 +1,15 @@
-package uet.oop.bomberman.entities.Item;
+package uet.oop.bomberman.entities.item;
 
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomber;
-import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.Sound.Sound;
-
+import uet.oop.bomberman.sound.Sound;
 import java.awt.*;
 
-public class Bomb_Item extends Item {
+public class Flame_Item extends Item {
 
-    public Bomb_Item(int x, int y, Sprite sprite) {
+    public Flame_Item(int x, int y, Sprite sprite) {
         super( x, y, sprite);
     }
 
@@ -34,7 +27,7 @@ public class Bomb_Item extends Item {
             }
             if (r1.intersects(r2)) {
                 Sound.play("eat_item");
-                tmp.setBombRemain(tmp.getBombRemain() + 1);
+                tmp.setRadius(tmp.getRadius() + 1);
                 BombermanGame.stillObjects.remove(this);
             }
         }

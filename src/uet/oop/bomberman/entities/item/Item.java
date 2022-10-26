@@ -1,19 +1,12 @@
-package uet.oop.bomberman.entities.StillEntity;
-
-import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+package uet.oop.bomberman.entities.item;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.stillEntity.Brick;
 import uet.oop.bomberman.graphics.Sprite;
 
-public class Portal extends Entity {
-
-    public Portal(int x, int y, Sprite sprite) {
-        super( x, y, sprite);
+public abstract class Item extends Entity {
+    public Item(int x, int y, Sprite sprite) {
+        super(x, y, sprite);
     }
 
     public boolean hasBrick() {
@@ -26,9 +19,4 @@ public class Portal extends Entity {
         return false;
     }
 
-    @Override
-    public void update(Scene scene) {
-
-    }
 }
-
