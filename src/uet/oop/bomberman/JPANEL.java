@@ -6,13 +6,13 @@ import javafx.scene.text.Font;
 
 import static javafx.scene.paint.Color.BLACK;
 public class JPANEL extends AnchorPane{
-    public Label labelLevel; // hiển thị chữ level trên thanh thông tin
+    public static Label labelLevel; // hiển thị chữ level trên thanh thông tin
 
-    public Label labelTime; // hiển thị chữ time trên thanh thông tin
+    public static Label labelTime; // hiển thị chữ time trên thanh thông tin
 
-    public Label labelPoint; // hiển thị chữ point trên thanh thông tin
+    public static Label labelPoint; // hiển thị chữ point trên thanh thông tin
 
-    public Label labelLives; // hiển thị chữ live trên thanh thông tin
+    public static Label labelLives; // hiển thị chữ live trên thanh thông tin
 
     public JPANEL() {
         labelLevel = new Label("LEVEL: " + BombermanGame.level);
@@ -39,7 +39,7 @@ public class JPANEL extends AnchorPane{
         labelLives.setFont(Font.font(18));
         labelLives.setTextFill(BLACK);
     }
-    public void setPanel() {
+    public static void setPanel() {
         BombermanGame.ro.getChildren().addAll(labelLevel,labelTime,labelPoint,labelLives);
     }
     public void setLevel(int t) {
@@ -56,5 +56,9 @@ public class JPANEL extends AnchorPane{
 
     public void setLives(int t) {
         labelLives.setText("LIVES : "+t);
+    }
+
+    public void delete() {
+        BombermanGame.ro.getChildren().removeAll(labelLives,labelLevel,labelTime,labelPoint);
     }
 }

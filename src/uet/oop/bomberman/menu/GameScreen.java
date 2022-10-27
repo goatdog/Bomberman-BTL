@@ -1,7 +1,9 @@
 package uet.oop.bomberman.menu;
 import javafx.animation.AnimationTimer;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,10 +14,19 @@ import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.graphics.Sprite;
 
 import java.awt.*;
+import java.io.IOException;
+
 import javafx.scene.shape.Rectangle;
 
 public class GameScreen extends BombermanGame{
+    public static boolean isRunning = true;
+
+    public static int openCountforPauseScreen = 1;
+    public static int openCountforThisScreen = 1;
+
+    public static int setPanelCount = 1;
     public void Game(Stage stage) {
+        delete();
         canvas = new Canvas(Sprite.SCALED_SIZE * BombermanGame.WIDTH, Sprite.SCALED_SIZE * (BombermanGame.HEIGHT + 1));
         gc = canvas.getGraphicsContext2D();
 
@@ -28,25 +39,45 @@ public class GameScreen extends BombermanGame{
         Scene scene = new Scene(root);
 
         // Them scene vao stage
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if (check == true) {
-                    BombermanGame.delete();
-                    BombermanGame.level++;
-                    BombermanGame.time = 400;
-                    BombermanGame.lives++;
-                    createMap();
-                    check = false;
-                }
+                if (isRunning) {
+                    openCountforPauseScreen = 1;
+                    if (openCountforThisScreen == 1) {
+                        stage.setScene(scene);
+                        stage.setResizable(false);
+                        stage.show();
+                        openCountforThisScreen--;
+                    }
+                    if (check == true) {
+                        BombermanGame.delete();
+                        BombermanGame.level++;
+                        BombermanGame.time = 400;
+                        BombermanGame.lives++;
+                        createMap();
+                        check = false;
+                    }
 
-                if (lives == 0 || time < 0) this.stop();
-                render();
-                update(scene);
+                    if (lives == 0 || time < 0) this.stop();
+                    render();
+                    update(scene);
+                } else {
+                    openCountforThisScreen = 1;
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/PauseScreen.fxml"));
+                    try {
+                        if (openCountforPauseScreen == 1) {
+                            Parent root2 = loader.load();
+                            Scene scene2 = new Scene(root2);
+                            stage.setScene(scene2);
+                            stage.show();
+                            openCountforPauseScreen--;
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Can't load screen");
+                    }
+                }
             }
         };
         timer.start();

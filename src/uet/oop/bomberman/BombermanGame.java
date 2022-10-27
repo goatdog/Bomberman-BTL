@@ -29,6 +29,8 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class BombermanGame extends Application {
+
+    public static boolean hasSound = true;
     
     public static int WIDTH = 31;
     public static int HEIGHT = 13;
@@ -53,7 +55,6 @@ public class BombermanGame extends Application {
 
 
     public static void main(String[] args) {
-        Sound.play("Sound"); // nhạc nền
         Application.launch(BombermanGame.class);
     }
 
@@ -94,6 +95,7 @@ public class BombermanGame extends Application {
 //    }
 
     public void start(Stage stage) throws IOException {
+        Sound.play("Sound"); // nhạc nền
         ClassLoader load = Thread.currentThread().getContextClassLoader();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainMenu.fxml"));
         Parent root = loader.load();
@@ -195,7 +197,7 @@ public class BombermanGame extends Application {
 
     public void update(Scene scene) {
         coutTime();
-        if(countTime % 60 == 0){
+        if (countTime % 60 == 0) {
             time -- ;
         }
         //if (Bomber.lives >= 0) lives = Bomber.lives;

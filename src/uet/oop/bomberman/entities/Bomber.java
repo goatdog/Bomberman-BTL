@@ -12,6 +12,7 @@ import uet.oop.bomberman.entities.stillEntity.Wall;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.menu.GameScreen;
 import uet.oop.bomberman.sound.Sound;
 
 import java.util.ArrayList;
@@ -98,6 +99,9 @@ public class Bomber extends Entity {
                         break;
                     case SPACE:
                         placeBombCommand = true;
+                        break;
+                    case P:
+                        GameScreen.isRunning = !GameScreen.isRunning;
                         break;
                 }
             }

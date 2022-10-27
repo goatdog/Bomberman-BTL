@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="448.0" fitWidth="992.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Bomberman_background.png" />
+            <Image url="@images/Bomberman_background.png" />
          </image>
       </ImageView>
       <Button layoutX="384.0" layoutY="224.0" mnemonicParsing="false" onAction="#SwitchPlayScreen" prefHeight="30.0" prefWidth="200.0" text="Play">
@@ -19,7 +19,7 @@
          </font></Button>
       <ImageView fitHeight="150.0" fitWidth="400.0" layoutX="278.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Bomberman_topic.png" />
+            <Image url="@images/Bomberman_topic.png" />
          </image>
       </ImageView>
       <Button layoutX="384.0" layoutY="286.0" mnemonicParsing="false" onAction="#SwitchControlScreen" prefHeight="30.0" prefWidth="200.0" text="Controls">
