@@ -65,6 +65,8 @@ public class Doll extends Enemy {
                 }
                 x = rx;
                 y = ry;
+            } else {
+                super.calculateMove(speed / 2);
             }
         }
     }
@@ -113,7 +115,7 @@ public class Doll extends Enemy {
         if (!isAlive()) {
             timeCounter++;
             dx = dy = 0;
-            die(Sprite.doll_dead, 100);
+            die(Sprite.doll_dead, 300);
             System.out.println(timeCounter);
         }
         move();

@@ -22,7 +22,6 @@ public class GameScreen extends BombermanGame{
         // Tao root container
         Group root = new Group();
         root.getChildren().add(canvas);
-        ro.getChildren().addAll(new Rectangle(2,3));
         jpanel.setPanel();
         root.getChildren().add(ro);
         // Tao scene
@@ -37,6 +36,11 @@ public class GameScreen extends BombermanGame{
             @Override
             public void handle(long l) {
                 if (check == true) {
+                    BombermanGame.delete();
+                    BombermanGame.level++;
+                    BombermanGame.time = 400;
+                    BombermanGame.lives++;
+                    createMap();
                     check = false;
                 }
 
@@ -46,6 +50,5 @@ public class GameScreen extends BombermanGame{
             }
         };
         timer.start();
-        createMap();
     }
 }

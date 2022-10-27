@@ -41,12 +41,12 @@ public class BombermanGame extends Application {
 
     public static List<Flame> flameList = new ArrayList<>();
     private static char curmap[][] = new char[HEIGHT + 1][WIDTH];
-    public static int lives = 3; // số mạng
+    public static int lives = 2; // số mạng
     public static int countTime =0;
     public static int time = 400; // cài time
     public static int score =0; // point
-    public static boolean check = false;
-    public static int level = 1;
+    public static boolean check = true;
+    public static int level = 0;
     public static JPANEL jpanel = new JPANEL(); // để gọi các phương thức lớp JPanel (liên quan đến set up hình ảnh)
 
     public static AnchorPane ro = new AnchorPane(); // ro đại diện cho chức năng load các vùng cũng như ảnh text của toàn game
@@ -103,22 +103,11 @@ public class BombermanGame extends Application {
     }
 
     public void createMap() {
-        /*for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                Entity object;
-                if (j == 0 || j == HEIGHT - 1 || i == 0 || i == WIDTH - 1) {
-                    object = new Wall(i, j, Sprite.wall.getFxImage());
-                }
-                else {
-                    object = new Grass(i, j, Sprite.grass.getFxImage());
-                }
-                stillObjects.add(object);
-            }
-        }*/
         List<String> map = new ArrayList<String>();
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             URL url = loader.getResource("./levels/Level" + level +".txt");
+            System.out.println("current level: " + level);
             String path = url.getPath();
             File input = new File(path);
             BufferedReader scanner = new BufferedReader(new FileReader(input));
@@ -180,9 +169,11 @@ public class BombermanGame extends Application {
                         case '3':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             entities.add(new Doll(i, j + 1, Sprite.doll_right1));
+                            break;
                         case '4':
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             entities.add(new Kondoria(i, j + 1, Sprite.kondoria_right1));
+                            break;
                         default:
                             stillObjects.add(new Grass(i, j + 1, Sprite.grass));
                             break;
@@ -194,12 +185,21 @@ public class BombermanGame extends Application {
         }
     }
 
+    public static void delete() {
+        stillObjects.clear();
+        entities.clear();
+        List<Bomb> bombs = Bomber.getBombs();
+        bombs.clear();
+        flameList.clear();
+    }
+
     public void update(Scene scene) {
         coutTime();
         if(countTime % 60 == 0){
             time -- ;
         }
-        if (Bomber.lives >= 0) lives = Bomber.lives;
+        //if (Bomber.lives >= 0) lives = Bomber.lives;
+        jpanel.setLevel(level); // set level
         jpanel.setTimes(time); // set time
         jpanel.setPoint(score); // set điểm
         jpanel.setLives(lives); // set mạng
@@ -221,7 +221,6 @@ public class BombermanGame extends Application {
     }
 
     public void render() {
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         stillObjects.forEach(g -> g.render(gc));
         entities.forEach(g -> {
             g.render(gc);

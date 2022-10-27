@@ -48,8 +48,8 @@ public class Flame extends Entity {
         if (time < 20) {// thoi gian flame keo dai
             time++;
             setImg();
-        } else {
             handleCollisionFlame();
+        } else {
             BombermanGame.flameList.remove(this);
         }
     }

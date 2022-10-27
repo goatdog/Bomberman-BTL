@@ -15,15 +15,20 @@ public class JPANEL extends AnchorPane{
     public Label labelLives; // hiển thị chữ live trên thanh thông tin
 
     public JPANEL() {
+        labelLevel = new Label("LEVEL: " + BombermanGame.level);
+        labelLevel.setLayoutX(100);
+        labelLevel.setLayoutY(1);
+        labelLevel.setFont(Font.font(18));
+        labelLevel.setTextFill(BLACK);
         labelTime = new Label("TIME : "+BombermanGame.time); // cài time
         // chỉnh tọa độ xếp thông tin về time
-        labelTime.setLayoutX(180);
+        labelTime.setLayoutX(300);
         labelTime.setLayoutY(1);
         labelTime.setFont(Font.font(18));
         labelTime.setTextFill(BLACK);
         // chỉnh tọa độ xếp thông tin về point
         labelPoint = new Label("POINT : "+ BombermanGame.score);
-        labelPoint.setLayoutX(450);
+        labelPoint.setLayoutX(600);
         labelPoint.setLayoutY(1);
         labelPoint.setFont(Font.font(18));
         labelPoint.setTextFill(BLACK);
@@ -35,7 +40,7 @@ public class JPANEL extends AnchorPane{
         labelLives.setTextFill(BLACK);
     }
     public void setPanel() {
-        BombermanGame.ro.getChildren().addAll(labelTime,labelPoint,labelLives);
+        BombermanGame.ro.getChildren().addAll(labelLevel,labelTime,labelPoint,labelLives);
     }
     public void setLevel(int t) {
         labelLevel.setText("LEVEL : " + t);

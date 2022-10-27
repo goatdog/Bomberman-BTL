@@ -19,6 +19,8 @@ import java.util.List;
 
 public class Bomber extends Entity {
     private int bombRemain; // khai báo biến số bom dự trữ
+
+    private int maxBomb;
     private int bombDelay; // thời gian delay giữa các lần đặt bom
     private boolean placeBombCommand = false; // quản lý về việc đặt bom( trả về true or false)
 
@@ -28,17 +30,17 @@ public class Bomber extends Entity {
     private static final List<Bomb> bombs = new ArrayList<>(); // khai báo list quản lý bom
     private int radius; // biến bán kính nổ
     private boolean is_Move = false;
-    public static int lives = 3; // số mạng
+    public static int lives; // số mạng
     private int BomberSpeed = 2;
     protected int dx = 0, dy = 0;
 
     private int timeAfterDie = 0; // thời gian sau khi chết
-    private int level = 1;
 
     public Bomber(int x, int y, Sprite sprite) {
         super( x, y, sprite);
-        setBombRemain(1);
+        setMaxBomb(1);
         setRadius(1);
+        lives = BombermanGame.lives;
     }
 
     public static List<Bomb> getBombs() { // trả về list bomb
@@ -53,20 +55,24 @@ public class Bomber extends Entity {
         return radius;
     }
 
-    public int getBombRemain() {
-        return bombRemain;
+    public int getMaxBomb() {
+        return maxBomb;
     }
 
-    public void setBombRemain(int bombRemain) {
-        this.bombRemain = bombRemain;
+    public void setMaxBomb(int maxBomb) {
+        this.maxBomb = maxBomb;
+    }
+
+    public void setBomberSpeed(int bomberSpeed) {
+        BomberSpeed = bomberSpeed;
     }
 
     public int getBomberSpeed() {
         return BomberSpeed;
     }
 
-    public void setBomberSpeed(int bomberSpeed) {
-        BomberSpeed = bomberSpeed;
+    public void setBombRemain(int bombRemain) {
+        this.bombRemain = bombRemain;
     }
 
     public void setKey(Scene scene) {
@@ -128,7 +134,7 @@ public class Bomber extends Entity {
     public void die() {
 
         if (timeAfterDie == 20) {
-            lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
+            BombermanGame.lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
             BombermanGame.score = 0;
             Sound.play("bomberman_die");
         }
@@ -150,7 +156,8 @@ public class Bomber extends Entity {
     }
 
     public void placeBomb() {
-        if (bombRemain > 0 && bombDelay == 0) {
+        System.out.println("bomb remain: " + bombRemain);
+        if (bombDelay == 0) {
             int xB = (int) Math.round((x) / (double) Sprite.SCALED_SIZE); // toa do bom
             int yB = (int) Math.round((y) / (double) Sprite.SCALED_SIZE); // toa do bom
             for (Bomb bomb : bombs) { // duyet list bombs
@@ -163,11 +170,13 @@ public class Bomber extends Entity {
                 }
             }
             Bomb tmp = new Bomb(xB, yB, Sprite.bomb, radius);
-            bombs.add(tmp); // tao bom va add vao list bom
-            bombDelay = 8;
-            tmp.setAllowedGoToBomb(true); // xuyen qua bom tra ve true
-            bombRemain--; //tru di luong bom du tru sua khi da dat
-            Sound.play("set_bomb"); // âm đặt bom
+            if (bombs.size() < maxBomb) {
+                bombs.add(tmp); // tao bom va add vao list bom
+                Sound.play("set_bomb"); // âm đặt bom
+                tmp.setAllowedGoToBomb(true); // xuyen qua bom tra ve true
+            }
+            bombDelay = 20;
+            //if (bombRemain > 0) bombRemain--; //tru di luong bom du tru sua khi da dat
         }
     }
 
@@ -216,9 +225,8 @@ public class Bomber extends Entity {
             } else if(BombermanGame.stillObjects.get(i) instanceof Portal) {
                 if(BombermanGame.entities.size() == 1 && BombermanGame.entities.get(0) instanceof Bomber
                         && this.checkCollision(BombermanGame.stillObjects.get(i)) && !((Portal) BombermanGame.stillObjects.get(i)).hasBrick()) {
-                    level++;
                     Sound.play("level_up");
-                    BombermanGame.entities.remove(0);
+                    BombermanGame.check = true;
                     //check = true;
                 }
             }
@@ -278,6 +286,7 @@ public class Bomber extends Entity {
     }
     @Override
     public void update(Scene scene) {
+        if (bombDelay > 0) bombDelay--;
         setKey(scene);
         count();
         if (!isAlive()) {
@@ -294,13 +303,11 @@ public class Bomber extends Entity {
         }
         if (placeBombCommand) {
             placeBomb();
-            if (bombDelay > 0) bombDelay--;
         }
         for (int i = 0; i < bombs.size(); i++) { // duyệt cái list của bomb
             Bomb bomb = bombs.get(i);
             if (!bomb.isAlive()) {
                 bombs.remove(bomb);
-                bombRemain++;
             }
         }
     }

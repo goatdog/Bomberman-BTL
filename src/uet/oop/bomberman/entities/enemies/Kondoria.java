@@ -17,7 +17,7 @@ public class Kondoria extends Enemy {
 
     private int loseLivesDelay = 20;
 
-    private boolean balloomCollision = false;
+    private boolean kondoriaCollision = false;
 
     public Kondoria(int x, int y, Sprite sprite) {
         super( x, y, sprite);
@@ -70,7 +70,7 @@ public class Kondoria extends Enemy {
                 timeCounter++;
                 dx = dy = 0;
             }
-            die(Sprite.kondoria_dead, 100);
+            die(Sprite.kondoria_dead, 400);
         } else {
             if (loseLivesDelay > 0) {
                 loseLivesDelay--;

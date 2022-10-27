@@ -28,7 +28,9 @@ public class Bomb_Item extends Item {
             }
             if (r1.intersects(r2)) {
                 Sound.play("eat_item");
-                tmp.setBombRemain(tmp.getBombRemain() + 1);
+                System.out.println("max bomb: " + tmp.getMaxBomb());
+                tmp.setMaxBomb(tmp.getMaxBomb() + 1);
+                System.out.println("max bomb: " + tmp.getMaxBomb());
                 BombermanGame.stillObjects.remove(this);
             }
         }
