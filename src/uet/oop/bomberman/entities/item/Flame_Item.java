@@ -3,6 +3,8 @@ package uet.oop.bomberman.entities.item;
 import javafx.scene.Scene;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.entities.Bomber;
+import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.enemies.Enemy;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.sound.Sound;
 import java.awt.*;
@@ -28,6 +30,13 @@ public class Flame_Item extends Item {
             if (r1.intersects(r2)) {
                 Sound.play("eat_item");
                 tmp.setRadius(tmp.getRadius() + 1);
+                for (int i = 0; i < BombermanGame.entities.size(); i++) {
+                    Entity other = BombermanGame.entities.get(i);
+                    if (other instanceof Enemy) {
+                        Enemy e = (Enemy) other;
+                        e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = ' ';
+                    }
+                }
                 BombermanGame.stillObjects.remove(this);
             }
         }
