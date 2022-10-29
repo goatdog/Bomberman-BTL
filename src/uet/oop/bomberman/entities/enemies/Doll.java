@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.enemies;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import uet.oop.bomberman.BombermanGame;
+import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.Bomber;
 import uet.oop.bomberman.entities.stillEntity.Brick;
@@ -94,11 +95,18 @@ public class Doll extends Enemy {
         }
         List<Bomb> bombs = Bomber.getBombs();
         for (int i = 0; i < bombs.size(); i++) {
-            if (this.checkCollision(bombs.get(i)) && bombs.get(i).isAllowedGoToBomb() == false) {
+            if (this.checkCollision(bombs.get(i))) {
                 if (isAllowedToBreakBomb == true) {
+                    for (int j = 0; j < BombermanGame.entities.size(); j++) {
+                        Entity tmp = BombermanGame.entities.get(j);
+                        if (tmp instanceof Enemy) {
+                            Enemy en = (Enemy) tmp;
+                            en.board[bombs.get(i).getY() / Sprite.SCALED_SIZE][bombs.get(i).getX() / Sprite.SCALED_SIZE] = ' ';
+                        }
+                    }
                     bombs.remove(i);
                     isAllowedToBreakBomb = false;
-                } else {
+                } else if (bombs.get(i).isAllowedGoToBomb() == false){
                     x -= dx;
                     y -= dy;
                 }

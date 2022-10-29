@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane focusTraversable="true" prefHeight="448.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uet.oop.bomberman.menu.ControlScreen">
    <children>
       <ImageView fitHeight="448.0" fitWidth="992.0" pickOnBounds="true" preserveRatio="true">
@@ -33,14 +32,14 @@
       <Button layoutX="356.0" layoutY="145.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" text="↓" />
       <Button layoutX="392.0" layoutY="145.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" text="→" />
       <Button layoutX="320.0" layoutY="145.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" text="←" />
-      <Button layoutX="263.0" layoutY="213.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Space" />
-      <Label layoutX="595.0" layoutY="208.0" style="-fx-background-color: #FFFFFF;" text="Place Bomb" textFill="#04f23c">
+      <Button layoutX="263.0" layoutY="195.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="50.0" text="Space" />
+      <Label layoutX="597.0" layoutY="181.0" style="-fx-background-color: #FFFFFF;" text="Place Bomb" textFill="#04f23c">
          <font>
             <Font name="Monotype Corsiva" size="36.0" />
          </font>
       </Label>
-      <Button layoutX="270.0" layoutY="314.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" text="P" />
-      <Label layoutX="593.0" layoutY="304.0" style="-fx-background-color: #FFFFFF;" text="Pause Game" textFill="#08f23a">
+      <Button layoutX="270.0" layoutY="259.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" text="P" />
+      <Label layoutX="594.0" layoutY="249.0" style="-fx-background-color: #FFFFFF;" text="Pause Game" textFill="#08f23a">
          <font>
             <Font name="Monotype Corsiva" size="36.0" />
          </font>
@@ -50,5 +49,11 @@
             <Font name="Monotype Corsiva" size="24.0" />
          </font>
       </Button>
+      <Button layoutX="270.0" layoutY="324.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="36.0" text="M" />
+      <Label layoutX="577.0" layoutY="314.0" style="-fx-background-color: #FFFFFF;" text="Mute/Unmute" textFill="#02f242">
+         <font>
+            <Font name="Monotype Corsiva" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

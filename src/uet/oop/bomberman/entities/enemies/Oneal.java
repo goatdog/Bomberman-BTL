@@ -23,14 +23,10 @@ public class Oneal extends Enemy {
 
     @Override
     public void calculateMove(int speed) {
-        int a = 0, b = 0;
+        int a = BombermanGame.getBomberY() / Sprite.SCALED_SIZE, b = BombermanGame.getBomberX() / Sprite.SCALED_SIZE;
         for (int i = 1; i <= BombermanGame.HEIGHT; i++) {
             for (int j = 0; j < BombermanGame.WIDTH; j++) {
                 dis[i][j] = 100000;
-                if (board[i][j] == 'p'){
-                    a = i;
-                    b = j;
-                }
                 //System.out.print(board[i][j]);
             }
             //System.out.print("\n");

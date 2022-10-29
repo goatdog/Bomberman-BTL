@@ -103,6 +103,11 @@ public class Bomber extends Entity {
                     case P:
                         GameScreen.isRunning = !GameScreen.isRunning;
                         break;
+                    case M:
+                        BombermanGame.hasSound = !BombermanGame.hasSound;
+                        if (BombermanGame.hasSound == false) Sound.stop("Sound");
+                        else Sound.play("Sound");
+                        break;
                 }
             }
         });
@@ -138,6 +143,7 @@ public class Bomber extends Entity {
     public void die() {
 
         if (timeAfterDie == 20) {
+            BombermanGame.loseLives = true;
             BombermanGame.lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
             BombermanGame.score = 0;
             Sound.play("bomberman_die");
@@ -147,13 +153,6 @@ public class Bomber extends Entity {
                     Sprite.player_dead3, timeAfterDie, 20);
             img = sprite.getFxImage();
         } else {
-            for (int i = 0; i < BombermanGame.entities.size(); i++) {
-                Entity tmp = BombermanGame.entities.get(i);
-                if (tmp instanceof Enemy) {
-                    Enemy e = (Enemy) tmp;
-                    e.board[y / Sprite.SCALED_SIZE][x / Sprite.SCALED_SIZE] = ' ';
-                }
-            }
             BombermanGame.entities.remove(this);
             if (lives >= 0) BombermanGame.entities.add(new Bomber(1, 2, Sprite.player_right));
         }
@@ -302,7 +301,7 @@ public class Bomber extends Entity {
         for (int i = 0; i < BombermanGame.entities.size(); i++) {
             if (BombermanGame.entities.get(i) instanceof Enemy) {
                 Enemy tmp = (Enemy) BombermanGame.entities.get(i);
-                tmp.changepos();
+                //tmp.changepos();
             }
         }
         if (placeBombCommand) {

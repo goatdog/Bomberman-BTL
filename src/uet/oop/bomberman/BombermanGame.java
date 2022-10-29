@@ -31,10 +31,9 @@ import java.util.List;
 public class BombermanGame extends Application {
 
     public static boolean hasSound = true;
-    
     public static int WIDTH = 31;
     public static int HEIGHT = 13;
-
+    public static boolean loseLives = false;
     public GraphicsContext gc;
     public Canvas canvas;
     public static final List<Enemy> enemies = new ArrayList<>();

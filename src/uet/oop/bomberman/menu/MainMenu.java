@@ -19,6 +19,7 @@ public class MainMenu {
         GameScreen.lives = 2;
         GameScreen.score = 0;
         GameScreen.check = true;
+        GameScreen.openCountforWinScreen = GameScreen.openCountforLoseScreen = 1;
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         GameScreen gameScreen = new GameScreen();
         gameScreen.Game(stage);
