@@ -233,9 +233,7 @@ public class BombermanGame extends Application {
         flameList.forEach(g -> g.render(gc));
     }
     public void coutTime() {
-        if ( countTime < 400*60) {
-            countTime++;
-        }
+        countTime++;
     }
 
     public static char[][] getCurmap() {

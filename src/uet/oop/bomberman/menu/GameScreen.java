@@ -72,7 +72,7 @@ public class GameScreen extends BombermanGame{
                             loseLives = false;
                             BombermanGame.delete();
                             BombermanGame.level++;
-                            BombermanGame.time = 400;
+                            BombermanGame.time = 150;
                             BombermanGame.lives++;
                             createMap();
                             check = false;

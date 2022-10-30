@@ -14,7 +14,7 @@ public class MainMenu {
     public void SwitchPlayScreen(javafx.event.ActionEvent event) {
         GameScreen.isRunning = true;
         GameScreen.openCountforThisScreen = GameScreen.openCountforPauseScreen = 1;
-        GameScreen.time = 400;
+        GameScreen.time = 150;
         GameScreen.level = 0;
         GameScreen.lives = 2;
         GameScreen.score = 0;

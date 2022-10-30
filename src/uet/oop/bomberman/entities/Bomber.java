@@ -146,7 +146,7 @@ public class Bomber extends Entity {
             BombermanGame.loseLives = true;
             BombermanGame.lives--;// kể từ sau khi bom nổ 20 đơn vị thời gian thì mạng giảm đi 1
             BombermanGame.score = 0;
-            Sound.play("bomberman_die");
+            if (BombermanGame.lives > 0) Sound.play("bomberman_die");
         }
         if (timeAfterDie <= 45) {
             sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2,
@@ -228,7 +228,7 @@ public class Bomber extends Entity {
             } else if(BombermanGame.stillObjects.get(i) instanceof Portal) {
                 if(BombermanGame.entities.size() == 1 && BombermanGame.entities.get(0) instanceof Bomber
                         && this.checkCollision(BombermanGame.stillObjects.get(i)) && !((Portal) BombermanGame.stillObjects.get(i)).hasBrick()) {
-                    Sound.play("level_up");
+                    if (BombermanGame.loseLives == true && BombermanGame.level < 4) Sound.play("level_up");
                     BombermanGame.check = true;
                     //check = true;
                 }

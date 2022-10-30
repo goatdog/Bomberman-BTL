@@ -1,10 +1,13 @@
 package uet.oop.bomberman.entities.enemies;
 
+import javafx.util.Pair;
 import uet.oop.bomberman.BombermanGame;
 import uet.oop.bomberman.sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.graphics.Sprite;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public abstract class Enemy extends Entity {
@@ -87,6 +90,28 @@ public abstract class Enemy extends Entity {
                 if (dis[i + vy[k]][j + vx[k]] > dis[i][j] + 1) {
                     dis[i + vy[k]][j + vx[k]] = dis[i][j] + 1;
                     dfs(board, i + vy[k], j + vx[k]);
+                }
+            }
+        }
+    }
+
+    public void bfs(char board[][], int i, int j) {
+        Queue<Pair<Integer,Integer>> q = new LinkedList<>();
+        q.add(new Pair<Integer,Integer>(i, j));
+        while(!q.isEmpty()) {
+            int n = q.peek().getKey();
+            int m = q.peek().getValue();
+            if (n == getBoardY() && m == getBoardX()) return;
+            q.remove();
+            for (int k = 0; k < 4; k++) {
+                if (n + vy[k] < 1 || m + vx[k] < 0 || n + vy[k] > BombermanGame.HEIGHT || m + vx[k] >= BombermanGame.WIDTH) continue;
+                if (board[n + vy[k]][m + vx[k]] != '*' && board[n + vy[k]][m + vx[k]] != '#' && board[n + vy[k]][m + vx[k]] != 'B'
+                        && board[n + vy[k]][m + vx[k]] != 'b' && board[n + vy[k]][m + vx[k]] != 'f' && board[n + vy[k]][m + vx[k]] != 's'
+                        && board[n + vy[k]][m + vx[k]] != 'x') {
+                    if (dis[n + vy[k]][m + vx[k]] > dis[n][m] + 1) {
+                        dis[n + vy[k]][m + vx[k]] = dis[n][m] + 1;
+                        q.add(new Pair<>(n + vy[k], m + vx[k]));
+                    }
                 }
             }
         }
