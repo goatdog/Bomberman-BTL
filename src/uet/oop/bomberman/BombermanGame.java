@@ -2,6 +2,7 @@ package uet.oop.bomberman;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -97,6 +98,9 @@ public class BombermanGame extends Application {
         Sound.play("Sound"); // nhạc nền
         ClassLoader load = Thread.currentThread().getContextClassLoader();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainMenu.fxml"));
+        Image logo = new Image("images/Bomberman-icon.png");
+        stage.getIcons().add(logo);
+        stage.setTitle("Bomberman Game");
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
